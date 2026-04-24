@@ -125,9 +125,9 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
               <span className="hidden sm:inline-block text-[10px] sm:text-[12px] uppercase opacity-50 ml-1 tracking-wider text-gray-500">/人</span>
             </div>
 
-            <div className="flex flex-wrap gap-1 sm:gap-2 max-h-[32px] sm:max-h-[26px] overflow-hidden">
+            <div className="flex flex-nowrap sm:flex-wrap gap-1 sm:gap-2 overflow-hidden">
               {restaurant.tags.map((tag, idx) => (
-                <span key={idx} className={`px-1 sm:px-2.5 py-0.5 sm:py-1 rounded-[2px] sm:rounded-[4px] text-[8px] sm:text-[11px] font-bold border whitespace-nowrap uppercase tracking-wider ${config.pillClass}`}>
+                <span key={idx} className={`shrink-0 px-1 sm:px-2.5 py-0.5 sm:py-1 rounded-[2px] sm:rounded-[4px] text-[8px] sm:text-[11px] font-bold border whitespace-nowrap uppercase tracking-wider ${config.pillClass}`}>
                   {tag}
                 </span>
               ))}
