@@ -49,23 +49,23 @@ const rarityConfig: Record<RarityLevel, {
   },
   r: {
     label: 'R 日常口粮',
-    borderGradient: 'from-green-200 via-[#69A541] to-green-800',
-    shadowClass: 'shadow-[0_10px_30px_-10px_rgba(105,165,65,0.1)]',
-    starColor: '#22c55e',
+    borderGradient: 'from-green-300 via-[#16A34A] to-green-800', // 餐饮绿 (更具食欲的鲜亮绿色)
+    shadowClass: 'shadow-[0_10px_30px_-10px_rgba(22,163,74,0.15)]',
+    starColor: '#16a34a',
     innerBgClass: 'bg-white',
     badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white',
-    scoreClass: 'text-green-500',
+    scoreClass: 'text-green-600',
     pillClass: 'bg-green-50 text-green-700 border-green-100'
   },
   n: {
     label: 'N 避雷踩坑',
-    borderGradient: 'from-blue-200 via-[#4A90E2] to-blue-800',
-    shadowClass: 'shadow-[0_10px_30px_-10px_rgba(74,144,226,0.1)]',
-    starColor: '#3b82f6',
+    borderGradient: 'from-zinc-200 via-[#a1a1aa] to-zinc-600', // 恢复为灰色系
+    shadowClass: 'shadow-[0_10px_30px_-10px_rgba(161,161,170,0.1)]',
+    starColor: '#71717a',
     innerBgClass: 'bg-zinc-50',
-    badgeClass: 'bg-gradient-to-br from-blue-400 to-blue-600 text-white',
-    scoreClass: 'text-blue-500',
-    pillClass: 'bg-blue-50 text-blue-700 border-blue-100'
+    badgeClass: 'bg-gradient-to-br from-zinc-400 to-zinc-500 text-white',
+    scoreClass: 'text-zinc-500',
+    pillClass: 'bg-zinc-100 text-zinc-600 border-zinc-200'
   }
 };
 

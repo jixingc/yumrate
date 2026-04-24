@@ -46,12 +46,12 @@ const rarityConfig: Record<RarityLevel, {
   },
   r: {
     label: 'R',
-    themeColor: '#3b82f6',
-    badgeClass: 'bg-gradient-to-br from-blue-400 to-blue-600 text-white shadow-md shadow-blue-500/20',
-    scoreClass: 'text-blue-500',
-    headerBgClass: 'bg-gradient-to-b from-blue-50 to-white text-zinc-900',
-    pillClass: 'bg-blue-100 text-blue-800 border border-blue-200',
-    watermarkClass: 'text-blue-400'
+    themeColor: '#16a34a', // 餐饮绿 (green-600)
+    badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white shadow-md shadow-green-500/20',
+    scoreClass: 'text-green-600',
+    headerBgClass: 'bg-gradient-to-b from-green-50 to-white text-zinc-900',
+    pillClass: 'bg-green-100 text-green-800 border border-green-200',
+    watermarkClass: 'text-green-400'
   },
   n: {
     label: 'N',
