@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteVisitRecord } from '../lib/api';
 import type { Restaurant, RarityLevel, VisitRecord } from '../types';
@@ -66,43 +66,17 @@ const rarityConfig: Record<RarityLevel, {
   }
 };
 
-const RadarChart = ({ scores, color }: { scores: { taste: number, value: number, env: number, unique: number }, color: string }) => {
-  const maxR = 32;
-  const c = 50;
-  const getPos = (val: number, angle: number) => {
-    const r = (val / 10) * maxR;
-    const rad = (angle * Math.PI) / 180;
-    return `${c + r * Math.sin(rad)},${c - r * Math.cos(rad)}`;
-  };
-
-  // top(taste), right(env), bottom(value), left(unique)
-  const pts = `${getPos(scores.taste, 0)} ${getPos(scores.env, 90)} ${getPos(scores.value, 180)} ${getPos(scores.unique, 270)}`;
-  const gridPts = [10, 8, 6, 4, 2].map(v => `${getPos(v, 0)} ${getPos(v, 90)} ${getPos(v, 180)} ${getPos(v, 270)}`);
-
-  return (
-    <div className="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 flex items-center justify-center">
-      <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
-        {gridPts.map((p, i) => <polygon key={i} points={p} fill="none" stroke="#e4e4e7" strokeWidth="0.5" />)}
-        <line x1="50" y1={50-maxR} x2="50" y2={50+maxR} stroke="#e4e4e7" strokeWidth="0.5" />
-        <line x1={50-maxR} y1="50" x2={50+maxR} y2="50" stroke="#e4e4e7" strokeWidth="0.5" />
-        <polygon points={pts} fill={color} fillOpacity="0.2" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
-        <circle cx={c} cy={c - (scores.taste/10)*maxR} r="1.5" fill={color} />
-        <circle cx={c + (scores.env/10)*maxR} cy={c} r="1.5" fill={color} />
-        <circle cx={c} cy={c + (scores.value/10)*maxR} r="1.5" fill={color} />
-        <circle cx={c - (scores.unique/10)*maxR} cy={c} r="1.5" fill={color} />
-
-        <text x="50" y={50 - maxR - 4} textAnchor="middle" fontSize="6" fill="#a1a1aa" fontWeight="bold" letterSpacing="0.5">口味</text>
-        <text x="50" y={50 + maxR + 8} textAnchor="middle" fontSize="6" fill="#a1a1aa" fontWeight="bold" letterSpacing="0.5">性价比</text>
-        <text x={50 + maxR + 4} y="52" textAnchor="start" fontSize="6" fill="#a1a1aa" fontWeight="bold" letterSpacing="0.5">环境</text>
-        <text x={50 - maxR - 4} y="52" textAnchor="end" fontSize="6" fill="#a1a1aa" fontWeight="bold" letterSpacing="0.5">独特</text>
-      </svg>
-    </div>
-  );
-};
-
 export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, onUpdate }) => {
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
+  const [activeRecordId, setActiveRecordId] = useState<string | null>(null);
+
+  // 当弹窗关闭或打开新的餐厅时，重置 activeRecordId
+  useEffect(() => {
+    if (!isOpen) {
+      setTimeout(() => setActiveRecordId(null), 300); // 配合动画延迟重置
+    }
+  }, [isOpen, restaurant]);
 
   // 禁止背景滚动
   useEffect(() => {
@@ -121,6 +95,8 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
   const config = rarityConfig[restaurant.rarity];
   const isUR = restaurant.rarity === 'ur';
 
+  const activeRecord = restaurant.visitRecords.find(r => r.id === activeRecordId) || null;
+
   const handleRecordClick = (record: VisitRecord) => {
     onClose();
     navigate('/entry', { state: { restaurant, record } });
@@ -136,10 +112,8 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
           onClose();
           if (onUpdate) onUpdate();
         } else {
-          // 如果只是删除了记录，餐厅还在，需要重新刷新数据
-          // 这里最简单的做法是也关闭弹窗刷新（或者由上层重新传restaurant过来）
-          // 为了简单，我们关闭并刷新
-          onClose();
+          // 如果只是删除了记录，餐厅还在，重置激活记录，并刷新外层
+          setActiveRecordId(null);
           if (onUpdate) onUpdate();
         }
       } else {
@@ -194,7 +168,6 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
             </span>
           </div>
 
-          {/* 镇楼图被移除，恢复极简排版 */}
           {/* 内容区 */}
           <div className="relative z-10 px-8 pb-8 mt-4">
 
@@ -380,7 +353,7 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
                     </p>
                   </div>
 
-                  {activeRecord.dishes.length > 0 && (
+                  {activeRecord.dishes && activeRecord.dishes.length > 0 && (
                     <div>
                       <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                         <span className="w-4 h-[1px] bg-zinc-300"></span> 印象菜品
@@ -397,12 +370,10 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
                   )}
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-
         </div>
-
       </div>
     </div>
   );
