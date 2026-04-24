@@ -88,7 +88,7 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
           </div>
 
           {restaurant.isCuratorOriginal && (
-            <div className="w-4 h-4 sm:w-7 sm:h-7 flex-shrink-0" title="馆长首创">
+            <div className="w-4 h-4 sm:w-7 sm:h-7 flex-shrink-0">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-full h-full transition-transform hover:scale-110" style={{ fill: config.starColor }}>
                 <path d="M10 0C10 6 14 10 20 10C14 10 10 14 10 20C10 14 6 10 0 10C6 10 10 6 10 0Z" />
                 <path d="M19 14C19 16.4 20.6 18 23 18C20.6 18 19 19.6 19 22C19 19.6 17.4 18 15 18C17.4 18 19 16.4 19 14Z" />
@@ -138,7 +138,7 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
           <div className="mt-auto hidden sm:block pt-6 overflow-hidden">
             <div className={`w-full border-t border-dashed mb-4 ${isUR ? 'border-amber-200' : 'border-gray-200'}`}></div>
             <div className="h-[44px]"> {/* 固定短评区域的高度 */}
-              <p className="text-[15px] leading-snug font-medium line-clamp-2 text-gray-500" title={restaurant.shortReview}>
+              <p className="text-[15px] leading-snug font-medium line-clamp-2 text-gray-500">
                 {restaurant.shortReview}
               </p>
             </div>

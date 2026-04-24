@@ -225,14 +225,11 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
                   </div>
                 )}
 
-                {/* 右上角操作区：编辑提示(PC悬停可见) + 删除按钮(常驻) */}
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 flex items-center gap-3">
-                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block pointer-events-none">
-                    点击编辑 ↗
-                  </span>
+                {/* 右上角操作区：删除按钮(常驻) */}
+                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 flex items-center">
                   <button
                     onClick={(e) => handleDeleteRecord(e, record.id)}
-                    className="flex items-center justify-center p-2.5 text-zinc-500 hover:text-red-600 hover:bg-red-50 bg-zinc-100/80 rounded-full transition-all shadow-sm"
+                    className="flex items-center justify-center p-2.5 text-zinc-400 hover:text-red-600 hover:bg-red-50 bg-zinc-100/80 rounded-full transition-all shadow-sm"
                     title="删除记录"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
