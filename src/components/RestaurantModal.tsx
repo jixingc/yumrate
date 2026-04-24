@@ -145,18 +145,18 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose }
               <span className={`px-4 py-1.5 text-[15px] font-black tracking-widest uppercase rounded-lg shadow-xl inline-block ${config.badgeClass}`}>
                 {config.label}
               </span>
-              <span className={`text-sm font-bold tracking-widest uppercase drop-shadow-md pl-1 ${isUR ? 'text-zinc-400' : 'text-zinc-500'}`}>
+              <span className={`text-sm font-bold tracking-widest uppercase pl-1 ${isUR ? 'text-zinc-400' : 'text-zinc-500'}`}>
                 {restaurant.location}
               </span>
             </div>
 
             {/* 标题 & 分数 */}
             <div className="flex items-end justify-between gap-6 mb-6 mt-2">
-              <h2 className={`text-4xl sm:text-[2.75rem] font-black font-sans tracking-tight leading-none drop-shadow-lg ${isUR ? 'text-white' : 'text-zinc-900'}`}>
+              <h2 className={`text-4xl sm:text-[2.75rem] font-black font-sans tracking-tight leading-none ${isUR ? 'text-white' : 'text-zinc-900'}`}>
                 {restaurant.name}
               </h2>
               <div className="flex flex-col items-end pt-4">
-                <div className={`text-7xl font-black tracking-tighter leading-none drop-shadow-xl ${config.scoreClass}`} style={{ WebkitTextStroke: isUR ? '1px rgba(251,191,36,0.3)' : '' }}>
+                <div className={`text-7xl font-black tracking-tighter leading-none ${config.scoreClass}`} style={{ WebkitTextStroke: isUR ? '1px rgba(251,191,36,0.3)' : '' }}>
                   {restaurant.score.toFixed(1)}
                 </div>
               </div>
