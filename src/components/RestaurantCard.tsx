@@ -39,7 +39,7 @@ const rarityConfig: Record<RarityLevel, {
   },
   sr: {
     label: 'SR 宝藏店铺',
-    borderColor: '#a78bfa', // violet-400
+    borderColor: '#8e82a6', // 降低饱和度和亮度的紫色 (原 #a78bfa)
     stripeOpacity: 0.2,
     starColor: '#8b5cf6',
     innerBgClass: 'bg-white',
@@ -49,7 +49,7 @@ const rarityConfig: Record<RarityLevel, {
   },
   r: {
     label: 'R 日常口粮',
-    borderColor: '#60a5fa', // blue-400
+    borderColor: '#7a94b3', // 降低饱和度和亮度的蓝色 (原 #60a5fa)
     stripeOpacity: 0.15,
     starColor: '#3b82f6',
     innerBgClass: 'bg-white',
