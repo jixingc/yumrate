@@ -75,19 +75,20 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
 
   return (
     <div
-      className={`relative flex flex-col rounded-2xl min-h-[300px] sm:h-[340px] w-full overflow-hidden bg-gradient-to-br ${config.borderGradient} p-[1.5px] ${config.shadowClass}`}
+      className={`relative flex flex-col rounded-[10px] sm:rounded-2xl min-h-[160px] sm:min-h-[300px] sm:h-[340px] w-full overflow-hidden bg-gradient-to-br ${config.borderGradient} p-[1.5px] ${config.shadowClass}`}
     >
       {/* 内部卡牌主体：通过极细的 1.5px padding 漏出底层渐变，形成高级金属丝边效果 */}
-      <div className={`relative flex flex-col flex-grow rounded-[14.5px] p-6 overflow-hidden ${config.innerBgClass}`}>
+      <div className={`relative flex flex-col flex-grow rounded-[8.5px] sm:rounded-[14.5px] p-2.5 sm:p-6 overflow-hidden ${config.innerBgClass}`}>
 
         {/* 顶部栏：等级标签 & 馆长标志 */}
-        <div className="flex justify-between items-start mb-4 shrink-0 relative z-20">
-          <div className={`px-3 py-1.5 text-[12px] font-black tracking-widest uppercase rounded-md shadow-sm ${config.badgeClass}`}>
-            {config.label}
+        <div className="flex justify-between items-start mb-2 sm:mb-4 shrink-0 relative z-20">
+          <div className={`px-1.5 sm:px-3 py-0.5 sm:py-1.5 text-[8px] sm:text-[12px] font-black tracking-widest uppercase rounded sm:rounded-md shadow-sm ${config.badgeClass}`}>
+            {config.label.split(' ')[0]} {/* 手机端只显示英文缩写 */}
+            <span className="hidden sm:inline"> {config.label.split(' ')[1]}</span>
           </div>
 
           {restaurant.isCuratorOriginal && (
-            <div className="w-7 h-7 flex-shrink-0" title="馆长首创">
+            <div className="w-4 h-4 sm:w-7 sm:h-7 flex-shrink-0" title="馆长首创">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-full h-full transition-transform hover:scale-110" style={{ fill: config.starColor }}>
                 <path d="M10 0C10 6 14 10 20 10C14 10 10 14 10 20C10 14 6 10 0 10C6 10 10 6 10 0Z" />
                 <path d="M19 14C19 16.4 20.6 18 23 18C20.6 18 19 19.6 19 22C19 19.6 17.4 18 15 18C17.4 18 19 16.4 19 14Z" />
@@ -100,33 +101,33 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
         <div className="flex flex-col flex-grow z-20 relative">
 
           {/* 标题 & 分数区域 */}
-          <div className="flex justify-between items-start gap-2 mt-2 shrink-0">
-            <div className="flex flex-col overflow-hidden pr-2">
-              <h3 className="text-2xl font-black font-sans leading-tight tracking-tight truncate text-gray-900">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-2 mt-1 sm:mt-2 shrink-0">
+            <div className="flex flex-col overflow-hidden">
+              <h3 className="text-sm sm:text-2xl font-black font-sans leading-tight tracking-tight truncate text-gray-900">
                 {restaurant.name}
               </h3>
-              <span className="text-sm font-bold tracking-widest uppercase mt-1.5 truncate text-gray-500">
+              <span className="text-[9px] sm:text-sm font-bold tracking-widest uppercase mt-0.5 sm:mt-1.5 truncate text-gray-500">
                 {restaurant.location}
               </span>
             </div>
 
-            <div className="flex-shrink-0 text-right -mt-2">
-              <div className={`text-[2.5rem] sm:text-[3.5rem] font-black tracking-tighter leading-none ${config.scoreClass}`}>
+            <div className="flex-shrink-0 text-left sm:text-right mt-1 sm:-mt-2">
+              <div className={`text-2xl sm:text-[3.5rem] font-black tracking-tighter leading-none ${config.scoreClass}`}>
                 {restaurant.score.toFixed(1)}
               </div>
             </div>
           </div>
 
           {/* 价格 & 胶囊标签区 */}
-          <div className="mt-4 sm:mt-8 flex flex-col gap-3 shrink-0">
-            <div className="text-lg font-black font-sans tracking-tighter text-gray-900">
-              <span className="text-[12px] uppercase opacity-60 mr-1 tracking-wider">¥</span>{restaurant.pricePerPerson}
-              <span className="text-[12px] uppercase opacity-50 ml-1 tracking-wider text-gray-500">/人</span>
+          <div className="mt-2 sm:mt-8 flex flex-col gap-1.5 sm:gap-3 shrink-0">
+            <div className="text-xs sm:text-lg font-black font-sans tracking-tighter text-gray-900">
+              <span className="text-[8px] sm:text-[12px] uppercase opacity-60 mr-0.5 sm:mr-1 tracking-wider">¥</span>{restaurant.pricePerPerson}
+              <span className="hidden sm:inline text-[12px] uppercase opacity-50 ml-1 tracking-wider text-gray-500">/人</span>
             </div>
 
-            <div className="flex flex-wrap gap-2 max-h-[52px] sm:max-h-[26px] overflow-hidden">
+            <div className="flex flex-wrap gap-1 sm:gap-2 max-h-[36px] sm:max-h-[26px] overflow-hidden">
               {restaurant.tags.map((tag, idx) => (
-                <span key={idx} className={`px-2.5 py-1 rounded-[4px] text-[11px] font-bold border whitespace-nowrap uppercase tracking-wider ${config.pillClass}`}>
+                <span key={idx} className={`px-1 sm:px-2.5 py-0.5 sm:py-1 rounded-[2px] sm:rounded-[4px] text-[8px] sm:text-[11px] font-bold border whitespace-nowrap uppercase tracking-wider ${config.pillClass}`}>
                   {tag}
                 </span>
               ))}
@@ -134,9 +135,9 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
           </div>
 
           {/* 底部短评 */}
-          <div className="mt-auto pt-6 overflow-hidden">
-            <div className={`w-full border-t border-dashed mb-4 ${isUR ? 'border-amber-200' : 'border-gray-200'}`}></div>
-            <p className="text-[15px] leading-snug font-medium line-clamp-2 text-gray-500" title={restaurant.shortReview}>
+          <div className="mt-auto pt-2 sm:pt-6 overflow-hidden">
+            <div className={`w-full border-t border-dashed mb-1.5 sm:mb-4 ${isUR ? 'border-amber-200' : 'border-gray-200'}`}></div>
+            <p className="text-[10px] sm:text-[15px] leading-snug font-medium line-clamp-2 text-gray-500" title={restaurant.shortReview}>
               {restaurant.shortReview}
             </p>
           </div>
