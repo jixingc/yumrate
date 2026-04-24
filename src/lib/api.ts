@@ -91,7 +91,49 @@ export const uploadImage = async (base64Image: string): Promise<string | null> =
   }
 };
 
-export const saveEntry = async (entryData: {
+export const deleteVisitRecord = async (visitRecordId: string, restaurantId: string) => {
+  try {
+    // 1. 删除菜品
+    await supabase.from('dishes').delete().eq('visit_record_id', visitRecordId);
+
+    // 2. 删除探店记录
+    const { error: visitErr } = await supabase.from('visit_records').delete().eq('id', visitRecordId);
+    if (visitErr) throw visitErr;
+
+    // 3. 检查剩余的探店记录
+    const { data: visits } = await supabase.from('visit_records').select('total_score, total_cost').eq('restaurant_id', restaurantId);
+
+    if (!visits || visits.length === 0) {
+      // 4. 如果没有探店记录了，直接删除整个餐厅
+      const { error: restErr } = await supabase.from('restaurants').delete().eq('id', restaurantId);
+      if (restErr) throw restErr;
+      return { success: true, restaurantDeleted: true };
+    } else {
+      // 5. 重新计算分数和人均
+      const avgScore = visits.reduce((acc, v) => acc + Number(v.total_score), 0) / visits.length;
+      const avgPrice = visits.reduce((acc, v) => acc + Number(v.total_cost), 0) / visits.length;
+
+      let rarity: RarityLevel = 'n';
+      if (avgScore >= 9.1) rarity = 'ur';
+      else if (avgScore >= 8.6) rarity = 'ssr';
+      else if (avgScore >= 8.1) rarity = 'sr';
+      else if (avgScore >= 6.6) rarity = 'r';
+
+      const { error: updateErr } = await supabase.from('restaurants').update({
+        score: Number(avgScore.toFixed(1)),
+        price_per_person: Math.round(avgPrice),
+        rarity: rarity
+      }).eq('id', restaurantId);
+
+      if (updateErr) throw updateErr;
+      return { success: true, restaurantDeleted: false };
+    }
+  } catch (error) {
+    console.error('Error deleting visit record:', error);
+    return { success: false, error };
+  }
+};
+
   restaurantId?: string; // 如果有则是添加探店记录，如果没有则是新建餐厅
   restaurantName: string;
   location: string;

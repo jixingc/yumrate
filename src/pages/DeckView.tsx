@@ -18,13 +18,14 @@ export const DeckView: React.FC = () => {
   const [filterRegion, setFilterRegion] = useState('');
   const [sortBy, setSortBy] = useState('score_desc');
 
+  const loadData = async () => {
+    setIsLoading(true);
+    const data = await fetchRestaurants();
+    setRestaurants(data);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const loadData = async () => {
-      setIsLoading(true);
-      const data = await fetchRestaurants();
-      setRestaurants(data);
-      setIsLoading(false);
-    };
     loadData();
   }, []);
 
@@ -36,6 +37,10 @@ export const DeckView: React.FC = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setTimeout(() => setSelectedRestaurant(null), 300); // Wait for transition
+  };
+
+  const handleDataChange = () => {
+    loadData();
   };
 
   // 提取唯一的选项供筛选器使用
@@ -183,6 +188,7 @@ export const DeckView: React.FC = () => {
         restaurant={selectedRestaurant}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
+        onUpdate={handleDataChange}
       />
     </div>
   );

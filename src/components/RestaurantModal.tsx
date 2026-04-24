@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { deleteVisitRecord } from '../lib/api';
 import type { Restaurant, RarityLevel, VisitRecord } from '../types';
 
 interface Props {
   restaurant: Restaurant | null;
   isOpen: boolean;
   onClose: () => void;
+  onUpdate?: () => void;
 }
 
 const rarityConfig: Record<RarityLevel, {
@@ -64,7 +66,7 @@ const rarityConfig: Record<RarityLevel, {
   }
 };
 
-export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose }) => {
+export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, onUpdate }) => {
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -88,6 +90,28 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose }
   const handleRecordClick = (record: VisitRecord) => {
     onClose();
     navigate('/entry', { state: { restaurant, record } });
+  };
+
+  const handleDeleteRecord = async (e: React.MouseEvent, recordId: string) => {
+    e.stopPropagation(); // 阻止触发卡片的点击事件(编辑)
+    if (window.confirm('确定要删除这条探店记录吗？')) {
+      const res = await deleteVisitRecord(recordId, restaurant.id);
+      if (res.success) {
+        if (res.restaurantDeleted) {
+          // 如果卡片被删除了，关闭弹窗并刷新外层列表
+          onClose();
+          if (onUpdate) onUpdate();
+        } else {
+          // 如果只是删除了记录，餐厅还在，需要重新刷新数据
+          // 这里最简单的做法是也关闭弹窗刷新（或者由上层重新传restaurant过来）
+          // 为了简单，我们关闭并刷新
+          onClose();
+          if (onUpdate) onUpdate();
+        }
+      } else {
+        alert('删除失败，请重试');
+      }
+    }
   };
 
   return (
@@ -201,9 +225,18 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose }
                   </div>
                 )}
 
-                {/* 悬停编辑提示 */}
-                <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                {/* 悬停编辑提示和删除按钮 */}
+                <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex gap-2">
                   <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-zinc-200 shadow-sm">查看 / 编辑 ↗</span>
+                  <button
+                    onClick={(e) => handleDeleteRecord(e, record.id)}
+                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 hover:text-red-700 shadow-sm transition-colors"
+                    title="删除记录"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
                 </div>
 
                 {/* 记录元数据 */}
