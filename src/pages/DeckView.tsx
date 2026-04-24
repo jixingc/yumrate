@@ -72,14 +72,15 @@ export const DeckView: React.FC = () => {
       <div className="max-w-7xl mx-auto pb-24 relative z-10">
         <header className="mb-16 text-center md:text-left flex flex-col md:flex-row items-center justify-between">
           <div>
-            <h1 className="text-5xl md:text-6xl font-serif font-black text-gray-900 tracking-tight">
-              Yumrate.
+            <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tight flex flex-col sm:flex-row items-center sm:items-baseline gap-2 sm:gap-4">
+              <span>探店笔记</span>
+              <span className="text-2xl md:text-3xl font-serif text-gray-400 font-bold tracking-normal">Yumrate.</span>
             </h1>
-            <p className="mt-3 text-lg text-gray-500 uppercase tracking-[0.2em] text-sm font-bold">
-              The Deck Collection
+            <p className="mt-4 sm:mt-3 text-gray-500 tracking-widest text-sm sm:text-base font-bold">
+              一起来做美食评论家
             </p>
           </div>
-          <div className="mt-8 md:mt-0 text-gray-400 font-serif italic text-sm text-right max-w-xs">
+          <div className="mt-8 md:mt-0 text-gray-400 font-serif italic text-sm text-right max-w-xs hidden md:block">
             "A meticulously curated archive of culinary experiences."
           </div>
         </header>
