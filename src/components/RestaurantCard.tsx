@@ -137,9 +137,11 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
           {/* 底部短评 */}
           <div className="mt-auto pt-4 sm:pt-6 overflow-hidden">
             <div className={`w-full border-t border-dashed mb-2.5 sm:mb-4 ${isUR ? 'border-amber-200' : 'border-gray-200'}`}></div>
-            <p className="text-[12px] sm:text-[15px] leading-snug font-medium line-clamp-2 text-gray-500" title={restaurant.shortReview}>
-              {restaurant.shortReview}
-            </p>
+            <div className="h-[36px] sm:h-[44px]"> {/* 固定短评区域的高度 (约2行文字的高度) */}
+              <p className="text-[12px] sm:text-[15px] leading-snug font-medium line-clamp-2 text-gray-500" title={restaurant.shortReview}>
+                {restaurant.shortReview}
+              </p>
+            </div>
           </div>
 
         </div>
