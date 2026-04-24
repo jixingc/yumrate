@@ -266,9 +266,16 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
               </button>
 
               <div className="relative bg-white border border-zinc-100 rounded-[2rem] p-6 sm:p-10 shadow-sm overflow-hidden">
+
+                {/* 镇楼图：以极简、高质感的海报图形式展示在最上方 */}
                 {activeRecord.coverImage && (
-                  <div className="absolute top-0 right-0 w-48 h-48 opacity-[0.03] pointer-events-none">
-                    <img src={activeRecord.coverImage} alt="Cover" className="w-full h-full object-cover rounded-bl-3xl" style={{ WebkitMaskImage: 'radial-gradient(circle at top right, black 30%, transparent 70%)' }} />
+                  <div className="w-full h-64 sm:h-80 mb-8 rounded-2xl overflow-hidden shadow-sm relative group">
+                    <img
+                      src={activeRecord.coverImage}
+                      alt="Cover"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
                   </div>
                 )}
 
