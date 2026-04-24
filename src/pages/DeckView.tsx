@@ -93,19 +93,35 @@ export const DeckView: React.FC = () => {
             <div className="text-gray-400 font-serif italic text-sm text-right max-w-xs hidden md:block">
               "A meticulously curated archive of culinary experiences."
             </div>
-            {/* 登录态展示区 */}
-            {user ? (
-              <div className="flex items-center gap-3 text-xs font-bold text-gray-500">
-                <span>{user.email}</span>
-                <button onClick={signOut} className="uppercase tracking-widest hover:text-gray-900 transition-colors">
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <Link to="/login" className="text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-gray-900 transition-colors mt-2 md:mt-0">
-                Collaborator Login
-              </Link>
-            )}
+            {/* 登录态展示区 - 头像模式 */}
+            <div className="relative group mt-2 md:mt-0 z-50">
+              {user ? (
+                <div className="flex items-center gap-3 cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 border-2 border-white shadow-sm overflow-hidden flex items-center justify-center">
+                    {user.user_metadata?.avatar_url ? (
+                      <img src={user.user_metadata.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-gray-500 font-bold">{user.email?.charAt(0).toUpperCase()}</span>
+                    )}
+                  </div>
+                  {/* Dropdown for logout */}
+                  <div className="absolute right-0 top-12 w-32 bg-white border border-gray-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <button onClick={signOut} className="w-full text-left px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
+                      退出登录
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <Link to="/login" className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 border-2 border-white shadow-sm overflow-hidden flex items-center justify-center text-gray-400 group-hover:bg-gray-200 transition-colors">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-widest hidden md:inline">Login</span>
+                </Link>
+              )}
+            </div>
           </div>
         </header>
 
