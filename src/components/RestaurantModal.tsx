@@ -20,8 +20,8 @@ const rarityConfig: Record<RarityLevel, {
   ur: {
     label: 'UR',
     themeColor: '#0f172a',
-    badgeClass: 'bg-gradient-to-br from-slate-900 via-black to-slate-800 text-amber-400 shadow-lg shadow-amber-500/20 border border-amber-500/40',
-    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-amber-200 via-amber-400 to-amber-600 drop-shadow-md',
+    badgeClass: 'bg-gradient-to-br from-slate-900 via-black to-slate-800 text-amber-400 shadow-sm border border-amber-500/40',
+    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-amber-200 via-amber-400 to-amber-600',
     headerBgClass: 'bg-zinc-900 text-white',
     pillClass: 'bg-zinc-800 text-amber-400 shadow-sm border border-zinc-700',
     watermarkClass: 'text-amber-400'
@@ -29,7 +29,7 @@ const rarityConfig: Record<RarityLevel, {
   ssr: {
     label: 'SSR',
     themeColor: '#be123c', // 勃艮第酒红 (rose-700)
-    badgeClass: 'bg-gradient-to-br from-rose-500 to-rose-800 text-white shadow-lg shadow-rose-700/30',
+    badgeClass: 'bg-gradient-to-br from-rose-500 to-rose-800 text-white shadow-sm',
     scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-rose-500 to-rose-800',
     headerBgClass: 'bg-gradient-to-b from-rose-50 to-white text-zinc-900',
     pillClass: 'bg-rose-100 text-rose-800 border border-rose-200',
@@ -37,17 +37,17 @@ const rarityConfig: Record<RarityLevel, {
   },
   sr: {
     label: 'SR',
-    themeColor: '#facc15', // 美团黄 (yellow-400)
-    badgeClass: 'bg-gradient-to-br from-yellow-300 to-yellow-500 text-yellow-900 shadow-md shadow-yellow-500/30',
-    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-yellow-600',
-    headerBgClass: 'bg-gradient-to-b from-yellow-50 to-white text-zinc-900',
-    pillClass: 'bg-yellow-100 text-yellow-800 border border-yellow-200',
-    watermarkClass: 'text-yellow-400'
+    themeColor: '#f59e0b', // 偏橙黄 (amber-500)
+    badgeClass: 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-sm',
+    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-amber-500 to-orange-600',
+    headerBgClass: 'bg-gradient-to-b from-amber-50 to-white text-zinc-900',
+    pillClass: 'bg-amber-100 text-amber-800 border border-amber-200',
+    watermarkClass: 'text-amber-400'
   },
   r: {
     label: 'R',
     themeColor: '#16a34a', // 餐饮绿 (green-600)
-    badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white shadow-md shadow-green-500/20',
+    badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white shadow-sm',
     scoreClass: 'text-green-600',
     headerBgClass: 'bg-gradient-to-b from-green-50 to-white text-zinc-900',
     pillClass: 'bg-green-100 text-green-800 border border-green-200',

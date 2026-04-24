@@ -19,7 +19,7 @@ const rarityConfig: Record<RarityLevel, {
   ur: {
     label: 'UR 殿堂神作',
     borderGradient: 'from-amber-200 via-yellow-500 to-amber-700',
-    shadowClass: 'shadow-[0_15px_40px_-10px_rgba(245,158,11,0.25)]',
+    shadowClass: 'shadow-[0_8px_20px_-8px_rgba(245,158,11,0.15)]',
     starColor: '#eab308',
     // 极其微弱的浅金白底色，大幅降低了不透明度和色彩浓度
     innerBgClass: 'bg-gradient-to-br from-white via-[#fffdf0] to-[#fffbed]',
@@ -30,7 +30,7 @@ const rarityConfig: Record<RarityLevel, {
   ssr: {
     label: 'SSR 此生必吃',
     borderGradient: 'from-rose-200 via-[#be123c] to-rose-900', // 勃艮第酒红 (rose-700)
-    shadowClass: 'shadow-[0_15px_35px_-10px_rgba(190,18,60,0.15)]',
+    shadowClass: 'shadow-[0_8px_20px_-8px_rgba(190,18,60,0.1)]',
     starColor: '#e11d48',
     innerBgClass: 'bg-white',
     badgeClass: 'bg-gradient-to-br from-rose-500 to-rose-800 text-white',
@@ -39,18 +39,18 @@ const rarityConfig: Record<RarityLevel, {
   },
   sr: {
     label: 'SR 宝藏店铺',
-    borderGradient: 'from-yellow-200 via-[#facc15] to-yellow-600', // 美团黄 (yellow-400)
-    shadowClass: 'shadow-[0_15px_35px_-10px_rgba(250,204,21,0.15)]',
-    starColor: '#facc15', // yellow-400
+    borderGradient: 'from-amber-200 via-[#f59e0b] to-orange-500', // 偏橙黄 (amber-500)
+    shadowClass: 'shadow-[0_8px_20px_-8px_rgba(245,158,11,0.1)]',
+    starColor: '#f59e0b', // amber-500
     innerBgClass: 'bg-white',
-    badgeClass: 'bg-gradient-to-br from-yellow-300 to-yellow-500 text-yellow-900', // 深色文字在亮黄上更清晰
-    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-yellow-600',
-    pillClass: 'bg-yellow-50 text-yellow-800 border-yellow-200'
+    badgeClass: 'bg-gradient-to-br from-amber-400 to-orange-500 text-white', // 文字恢复白色
+    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-amber-500 to-orange-600',
+    pillClass: 'bg-amber-50 text-amber-700 border-amber-200'
   },
   r: {
     label: 'R 日常口粮',
     borderGradient: 'from-green-300 via-[#16A34A] to-green-800', // 餐饮绿 (更具食欲的鲜亮绿色)
-    shadowClass: 'shadow-[0_10px_30px_-10px_rgba(22,163,74,0.15)]',
+    shadowClass: 'shadow-[0_8px_20px_-8px_rgba(22,163,74,0.08)]',
     starColor: '#16a34a',
     innerBgClass: 'bg-white',
     badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white',
@@ -60,7 +60,7 @@ const rarityConfig: Record<RarityLevel, {
   n: {
     label: 'N 避雷踩坑',
     borderGradient: 'from-zinc-200 via-[#a1a1aa] to-zinc-600', // 恢复为灰色系
-    shadowClass: 'shadow-[0_10px_30px_-10px_rgba(161,161,170,0.1)]',
+    shadowClass: 'shadow-[0_8px_20px_-8px_rgba(161,161,170,0.05)]',
     starColor: '#71717a',
     innerBgClass: 'bg-zinc-50',
     badgeClass: 'bg-gradient-to-br from-zinc-400 to-zinc-500 text-white',
