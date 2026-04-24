@@ -75,7 +75,7 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
 
   return (
     <div
-      className={`relative flex flex-col rounded-xl sm:rounded-2xl h-[120px] sm:h-[340px] w-full overflow-hidden bg-gradient-to-br ${config.borderGradient} p-[1.5px] ${config.shadowClass}`}
+      className={`relative flex flex-col rounded-xl sm:rounded-2xl h-[145px] sm:h-[340px] w-full overflow-hidden bg-gradient-to-br ${config.borderGradient} p-[1.5px] ${config.shadowClass}`}
     >
       {/* 内部卡牌主体：通过极细的 1.5px padding 漏出底层渐变，形成高级金属丝边效果 */}
       <div className={`relative flex flex-col flex-grow rounded-[10.5px] sm:rounded-[14.5px] p-2 sm:p-6 overflow-hidden ${config.innerBgClass}`}>
