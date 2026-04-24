@@ -231,57 +231,99 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
           </div>
         </div>
 
-        {/* 2. Body (探店记录日志) */}
-        <div className="flex-1 p-8 bg-zinc-50 rounded-b-3xl">
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-xl font-bold text-zinc-900">探店档案 <span className="text-zinc-400 font-normal">Logs</span></h3>
-            <span className="text-sm font-bold text-zinc-400">{restaurant.visitRecords.length} 份记录</span>
-          </div>
+        <div className="flex-1 p-4 sm:p-8 bg-zinc-50 rounded-b-3xl min-h-[400px]">
+          {!activeRecord ? (
+            // === 列表视图 ===
+            <div className="animate-in fade-in duration-300">
+              <div className="flex items-center justify-between mb-8 px-2">
+                <h3 className="text-xl font-bold text-zinc-900">探店档案 <span className="text-zinc-400 font-normal">Logs</span></h3>
+                <span className="text-sm font-bold text-zinc-400">{restaurant.visitRecords.length} 份记录</span>
+              </div>
 
-          <div className="space-y-12">
-            {restaurant.visitRecords.map((record) => (
-              <div
-                key={record.id}
-                className="relative bg-white border border-zinc-100 rounded-[2rem] p-6 sm:p-10 shadow-sm overflow-hidden"
+              <div className="space-y-4">
+                {restaurant.visitRecords.map((record) => (
+                  <div
+                    key={record.id}
+                    onClick={() => setActiveRecordId(record.id)}
+                    className="bg-white border border-zinc-200 rounded-2xl p-5 cursor-pointer hover:border-zinc-300 hover:shadow-md transition-all flex justify-between items-center group relative overflow-hidden"
+                  >
+                    {record.coverImage && (
+                      <div className="absolute top-0 right-0 w-32 h-32 opacity-[0.03] pointer-events-none transition-opacity duration-300 group-hover:opacity-[0.08]">
+                        <img src={record.coverImage} className="w-full h-full object-cover rounded-bl-full" style={{ WebkitMaskImage: 'radial-gradient(circle at top right, black 30%, transparent 70%)' }} />
+                      </div>
+                    )}
+                    <div className="flex items-center gap-4 relative z-10">
+                      <div className="w-10 h-10 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold shadow-inner">
+                        {record.reviewerName.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <div className="font-bold text-zinc-900">{record.reviewerName}</div>
+                        <div className="text-xs text-zinc-400">{record.date}</div>
+                      </div>
+                    </div>
+                    <div className="text-right flex items-center gap-4 sm:gap-8 relative z-10">
+                      <div className="hidden sm:block text-right">
+                        <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">花费</div>
+                        <div className="font-bold text-zinc-900 font-sans">¥{record.totalCost}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">评分</div>
+                        <div className={`font-black text-xl font-sans ${config.scoreClass}`}>
+                          {record.scores?.total?.toFixed(1) || '0.0'}
+                        </div>
+                      </div>
+                      <div className="text-zinc-300 group-hover:text-zinc-500 transition-colors ml-2">
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            // === 详情阅读视图 ===
+            <div className="animate-in slide-in-from-right-4 duration-300">
+              <button
+                onClick={() => setActiveRecordId(null)}
+                className="mb-6 flex items-center gap-2 text-sm font-bold text-zinc-400 hover:text-zinc-900 transition-colors px-2"
               >
-                {/* 记录专属的镇楼图 (如果存在) - 极简背景化 */}
-                {record.coverImage && (
+                <span className="text-xl leading-none -mt-0.5">←</span> 返回所有记录
+              </button>
+
+              <div className="relative bg-white border border-zinc-100 rounded-[2rem] p-6 sm:p-10 shadow-sm overflow-hidden">
+                {activeRecord.coverImage && (
                   <div className="absolute top-0 right-0 w-48 h-48 opacity-[0.03] pointer-events-none">
-                    <img src={record.coverImage} alt="Cover" className="w-full h-full object-cover rounded-bl-3xl" style={{ WebkitMaskImage: 'radial-gradient(circle at top right, black 30%, transparent 70%)' }} />
+                    <img src={activeRecord.coverImage} alt="Cover" className="w-full h-full object-cover rounded-bl-3xl" style={{ WebkitMaskImage: 'radial-gradient(circle at top right, black 30%, transparent 70%)' }} />
                   </div>
                 )}
 
-                {/* 顶部元数据与操作区 */}
                 <div className="flex items-start justify-between mb-8 pb-6 border-b border-zinc-100 relative z-10">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-xl shadow-inner">
-                      {record.reviewerName.charAt(0).toUpperCase()}
+                      {activeRecord.reviewerName.charAt(0).toUpperCase()}
                     </div>
                     <div>
                       <div className="font-bold text-zinc-900 text-lg flex items-center gap-2">
-                        {record.reviewerName}
-                        {(restaurant.rarity === 'ur' || restaurant.rarity === 'ssr' || restaurant.rarity === 'sr') && (
-                          <span className={`px-2 py-0.5 text-[9px] font-black tracking-widest uppercase rounded shadow-sm ${config.badgeClass}`}>
-                            {config.label} LOG
-                          </span>
-                        )}
+                        {activeRecord.reviewerName}
                       </div>
-                      <div className="text-sm text-zinc-400 font-medium tracking-wide">{record.date}</div>
+                      <div className="text-sm text-zinc-400 font-medium tracking-wide">{activeRecord.date}</div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-1 sm:gap-2">
                     <button
-                      onClick={() => handleRecordClick(record)}
+                      onClick={() => handleRecordClick(activeRecord)}
                       className="flex items-center justify-center p-2.5 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-all"
-                      title="编辑记录"
+                      title="进入编辑模式"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                       </svg>
                     </button>
                     <button
-                      onClick={(e) => handleDeleteRecord(e, record.id)}
+                      onClick={(e) => handleDeleteRecord(e, activeRecord.id)}
                       className="flex items-center justify-center p-2.5 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
                       title="删除记录"
                     >
@@ -292,55 +334,70 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
                   </div>
                 </div>
 
-                {/* 杂志排版主体区 */}
-                <div className="flex flex-col md:flex-row gap-8 lg:gap-12 relative z-10">
-                  {/* 左侧数据栏：雷达图 & 评分 & 价格 */}
-                  <div className="w-full md:w-1/3 flex flex-row md:flex-col items-center justify-around md:justify-start gap-6 shrink-0">
-                    <div className="flex flex-col items-center">
-                      <div className={`text-4xl font-black font-sans tracking-tighter leading-none ${config.scoreClass}`}>
-                        {record.scores?.total.toFixed(1) || '0.0'}
+                <div className="flex flex-col gap-8 relative z-10">
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 py-4 px-6 bg-zinc-50 rounded-2xl items-center">
+                    <div className="col-span-2 sm:col-span-1 border-b sm:border-b-0 sm:border-r border-zinc-200 pb-4 sm:pb-0 sm:pr-4 flex flex-col items-center">
+                      <div className={`text-3xl font-black font-sans tracking-tighter ${config.scoreClass}`}>
+                        {activeRecord.scores?.total?.toFixed(1) || '0.0'}
                       </div>
                       <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest mt-1">综合评分</div>
                     </div>
 
-                    <RadarChart scores={record.scores || { taste: 0, env: 0, value: 0, unique: 0 }} color={config.themeColor} />
-
                     <div className="flex flex-col items-center">
-                      <div className="text-2xl font-black font-sans text-zinc-900 tracking-tight">¥{record.totalCost}</div>
-                      <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest mt-1">总花费</div>
+                      <div className="text-xl font-bold text-zinc-700 font-sans">{activeRecord.scores?.taste?.toFixed(1) || '-'}</div>
+                      <div className="text-[10px] text-zinc-400 font-bold tracking-widest mt-1">口味</div>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="text-xl font-bold text-zinc-700 font-sans">{activeRecord.scores?.value?.toFixed(1) || '-'}</div>
+                      <div className="text-[10px] text-zinc-400 font-bold tracking-widest mt-1">性价比</div>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="text-xl font-bold text-zinc-700 font-sans">{activeRecord.scores?.env?.toFixed(1) || '-'}</div>
+                      <div className="text-[10px] text-zinc-400 font-bold tracking-widest mt-1">环境</div>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="text-xl font-bold text-zinc-700 font-sans">{activeRecord.scores?.unique?.toFixed(1) || '-'}</div>
+                      <div className="text-[10px] text-zinc-400 font-bold tracking-widest mt-1">独特</div>
                     </div>
                   </div>
 
-                  {/* 右侧阅读区：总评 & 菜品列表 */}
-                  <div className="w-full md:w-2/3 flex flex-col">
-                    <div className="mb-8">
+                  <div className="flex justify-between items-center px-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-zinc-300 rounded-full"></span>
+                      <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">人均花费</span>
+                    </div>
+                    <div className="text-xl font-black font-sans text-zinc-900 tracking-tight">¥{activeRecord.totalCost}</div>
+                  </div>
+
+                  <div className="w-full h-[1px] bg-zinc-100"></div>
+
+                  <div>
+                    <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                      <span className="w-4 h-[1px] bg-zinc-300"></span> 整体体验
+                    </h4>
+                    <p className="text-[15px] sm:text-base leading-loose text-zinc-700 font-serif whitespace-pre-wrap">
+                      {activeRecord.overallExperience}
+                    </p>
+                  </div>
+
+                  {activeRecord.dishes.length > 0 && (
+                    <div>
                       <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <span className="w-4 h-[1px] bg-zinc-300"></span> 整体体验
+                        <span className="w-4 h-[1px] bg-zinc-300"></span> 印象菜品
                       </h4>
-                      <p className="text-[15px] sm:text-base leading-loose text-zinc-700 font-serif whitespace-pre-wrap">
-                        {record.overallExperience}
-                      </p>
+                      <ul className="space-y-4">
+                        {activeRecord.dishes.map(dish => (
+                          <li key={dish.id} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 leading-relaxed bg-zinc-50/50 p-3 sm:p-4 rounded-xl">
+                            <span className="font-bold text-zinc-900 whitespace-nowrap text-[15px]">「{dish.name}」</span>
+                            <span className="text-zinc-600 text-sm">{dish.review}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-
-                    {record.dishes.length > 0 && (
-                      <div>
-                        <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                          <span className="w-4 h-[1px] bg-zinc-300"></span> 印象菜品
-                        </h4>
-                        <ul className="space-y-4">
-                          {record.dishes.map(dish => (
-                            <li key={dish.id} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 leading-relaxed bg-zinc-50/50 p-3 sm:p-4 rounded-xl">
-                              <span className="font-bold text-zinc-900 whitespace-nowrap text-[15px]">「{dish.name}」</span>
-                              <span className="text-zinc-600 text-sm">{dish.review}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
 
