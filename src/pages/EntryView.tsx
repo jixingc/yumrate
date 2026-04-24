@@ -288,8 +288,13 @@ export const EntryView: React.FC = () => {
               />
               {tagInput.trim() && customTags.length < 2 && (
                 <button
-                  onClick={() => addTag(tagInput)}
-                  className="ml-2 bg-gray-200 hover:bg-gray-300 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center font-bold transition-colors"
+                  type="button"
+                  onMouseDown={(e) => {
+                    // 使用 onMouseDown 代替 onClick，防止 input onBlur 导致按钮消失而吞掉点击事件
+                    e.preventDefault();
+                    addTag(tagInput);
+                  }}
+                  className="ml-2 bg-gray-200 hover:bg-gray-300 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center font-bold transition-colors shrink-0"
                 >
                   +
                 </button>
