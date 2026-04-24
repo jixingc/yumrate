@@ -66,6 +66,40 @@ const rarityConfig: Record<RarityLevel, {
   }
 };
 
+const RadarChart = ({ scores, color }: { scores: { taste: number, value: number, env: number, unique: number }, color: string }) => {
+  const maxR = 32;
+  const c = 50;
+  const getPos = (val: number, angle: number) => {
+    const r = (val / 10) * maxR;
+    const rad = (angle * Math.PI) / 180;
+    return `${c + r * Math.sin(rad)},${c - r * Math.cos(rad)}`;
+  };
+
+  // top(taste), right(env), bottom(value), left(unique)
+  const pts = `${getPos(scores.taste, 0)} ${getPos(scores.env, 90)} ${getPos(scores.value, 180)} ${getPos(scores.unique, 270)}`;
+  const gridPts = [10, 8, 6, 4, 2].map(v => `${getPos(v, 0)} ${getPos(v, 90)} ${getPos(v, 180)} ${getPos(v, 270)}`);
+
+  return (
+    <div className="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 flex items-center justify-center">
+      <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
+        {gridPts.map((p, i) => <polygon key={i} points={p} fill="none" stroke="#e4e4e7" strokeWidth="0.5" />)}
+        <line x1="50" y1={50-maxR} x2="50" y2={50+maxR} stroke="#e4e4e7" strokeWidth="0.5" />
+        <line x1={50-maxR} y1="50" x2={50+maxR} y2="50" stroke="#e4e4e7" strokeWidth="0.5" />
+        <polygon points={pts} fill={color} fillOpacity="0.2" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
+        <circle cx={c} cy={c - (scores.taste/10)*maxR} r="1.5" fill={color} />
+        <circle cx={c + (scores.env/10)*maxR} cy={c} r="1.5" fill={color} />
+        <circle cx={c} cy={c + (scores.value/10)*maxR} r="1.5" fill={color} />
+        <circle cx={c - (scores.unique/10)*maxR} cy={c} r="1.5" fill={color} />
+
+        <text x="50" y={50 - maxR - 4} textAnchor="middle" fontSize="6" fill="#a1a1aa" fontWeight="bold" letterSpacing="0.5">口味</text>
+        <text x="50" y={50 + maxR + 8} textAnchor="middle" fontSize="6" fill="#a1a1aa" fontWeight="bold" letterSpacing="0.5">性价比</text>
+        <text x={50 + maxR + 4} y="52" textAnchor="start" fontSize="6" fill="#a1a1aa" fontWeight="bold" letterSpacing="0.5">环境</text>
+        <text x={50 - maxR - 4} y="52" textAnchor="end" fontSize="6" fill="#a1a1aa" fontWeight="bold" letterSpacing="0.5">独特</text>
+      </svg>
+    </div>
+  );
+};
+
 export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, onUpdate }) => {
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
@@ -204,83 +238,106 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
             <span className="text-sm font-bold text-zinc-400">{restaurant.visitRecords.length} 份记录</span>
           </div>
 
-          <div className="space-y-6">
-            {restaurant.visitRecords.map((record, index) => (
+          <div className="space-y-12">
+            {restaurant.visitRecords.map((record) => (
               <div
                 key={record.id}
-                onClick={() => handleRecordClick(record)}
-                className="relative bg-white border border-zinc-200 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-lg hover:border-zinc-300 transition-all cursor-pointer group overflow-hidden"
+                className="relative bg-white border border-zinc-100 rounded-[2rem] p-6 sm:p-10 shadow-sm overflow-hidden"
               >
-                {/* 记录专属的镇楼图 (如果存在) */}
+                {/* 记录专属的镇楼图 (如果存在) - 极简背景化 */}
                 {record.coverImage && (
-                  <div className="absolute top-0 right-0 w-32 h-32 opacity-20 pointer-events-none transition-opacity duration-500 group-hover:opacity-40">
-                    <img src={record.coverImage} alt="Cover" className="w-full h-full object-cover rounded-bl-3xl mask-image-gradient" style={{ WebkitMaskImage: 'radial-gradient(circle at top right, black 30%, transparent 70%)' }} />
+                  <div className="absolute top-0 right-0 w-48 h-48 opacity-[0.03] pointer-events-none">
+                    <img src={record.coverImage} alt="Cover" className="w-full h-full object-cover rounded-bl-3xl" style={{ WebkitMaskImage: 'radial-gradient(circle at top right, black 30%, transparent 70%)' }} />
                   </div>
                 )}
 
-                {/* 如果是 SR 以上等级的记录，右上角显示小徽章 */}
-                {(restaurant.rarity === 'ur' || restaurant.rarity === 'ssr' || restaurant.rarity === 'sr') && (
-                  <div className={`absolute top-0 left-6 px-3 py-1 text-[10px] font-black tracking-widest uppercase rounded-b-md shadow-sm ${config.badgeClass}`}>
-                    {config.label} LOG
-                  </div>
-                )}
-
-                {/* 右上角操作区：删除按钮(常驻) */}
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 flex items-center">
-                  <button
-                    onClick={(e) => handleDeleteRecord(e, record.id)}
-                    className="flex items-center justify-center p-2.5 text-zinc-400 hover:text-red-600 hover:bg-red-50 bg-zinc-100/80 rounded-full transition-all shadow-sm"
-                    title="删除记录"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* 记录元数据 */}
-                <div className="flex flex-wrap items-center justify-between gap-4 mt-4 mb-6 pb-6 border-b border-zinc-100 relative z-10">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-lg shadow-inner">
+                {/* 顶部元数据与操作区 */}
+                <div className="flex items-start justify-between mb-8 pb-6 border-b border-zinc-100 relative z-10">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-xl shadow-inner">
                       {record.reviewerName.charAt(0).toUpperCase()}
                     </div>
                     <div>
-                      <div className="font-bold text-zinc-900">{record.reviewerName}</div>
-                      <div className="text-xs text-zinc-400 font-medium">{record.date}</div>
+                      <div className="font-bold text-zinc-900 text-lg flex items-center gap-2">
+                        {record.reviewerName}
+                        {(restaurant.rarity === 'ur' || restaurant.rarity === 'ssr' || restaurant.rarity === 'sr') && (
+                          <span className={`px-2 py-0.5 text-[9px] font-black tracking-widest uppercase rounded shadow-sm ${config.badgeClass}`}>
+                            {config.label} LOG
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-sm text-zinc-400 font-medium tracking-wide">{record.date}</div>
                     </div>
                   </div>
-                  <div className="text-right pr-8 sm:pr-24">
-                    <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest mb-1">总花费</div>
-                    <div className="text-xl font-black font-sans text-zinc-900 tracking-tight">¥{record.totalCost}</div>
+
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <button
+                      onClick={() => handleRecordClick(record)}
+                      className="flex items-center justify-center p-2.5 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-all"
+                      title="编辑记录"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={(e) => handleDeleteRecord(e, record.id)}
+                      className="flex items-center justify-center p-2.5 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
+                      title="删除记录"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
 
-                {/* 点菜清单 */}
-                {record.dishes.length > 0 && (
-                  <div className="mb-8">
-                    <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4">点菜点评</h4>
-                    <ul className="space-y-3">
-                      {record.dishes.map(dish => (
-                        <li key={dish.id} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 leading-relaxed">
-                          <span className="font-bold text-zinc-900 whitespace-nowrap">「{dish.name}」</span>
-                          <span className="text-zinc-600 text-[14px]">{dish.review}</span>
-                        </li>
-                      ))}
-                    </ul>
+                {/* 杂志排版主体区 */}
+                <div className="flex flex-col md:flex-row gap-8 lg:gap-12 relative z-10">
+                  {/* 左侧数据栏：雷达图 & 评分 & 价格 */}
+                  <div className="w-full md:w-1/3 flex flex-row md:flex-col items-center justify-around md:justify-start gap-6 shrink-0">
+                    <div className="flex flex-col items-center">
+                      <div className={`text-4xl font-black font-sans tracking-tighter leading-none ${config.scoreClass}`}>
+                        {record.scores?.total.toFixed(1) || '0.0'}
+                      </div>
+                      <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest mt-1">综合评分</div>
+                    </div>
+
+                    <RadarChart scores={record.scores || { taste: 0, env: 0, value: 0, unique: 0 }} color={config.themeColor} />
+
+                    <div className="flex flex-col items-center">
+                      <div className="text-2xl font-black font-sans text-zinc-900 tracking-tight">¥{record.totalCost}</div>
+                      <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest mt-1">总花费</div>
+                    </div>
                   </div>
-                )}
 
-                {/* 整体体验文本 */}
-                <div>
-                  <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-3">整体体验</h4>
-                  <p className="text-[15px] leading-relaxed text-zinc-700 font-serif whitespace-pre-wrap">
-                    {record.overallExperience}
-                  </p>
-                </div>
+                  {/* 右侧阅读区：总评 & 菜品列表 */}
+                  <div className="w-full md:w-2/3 flex flex-col">
+                    <div className="mb-8">
+                      <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <span className="w-4 h-[1px] bg-zinc-300"></span> 整体体验
+                      </h4>
+                      <p className="text-[15px] sm:text-base leading-loose text-zinc-700 font-serif whitespace-pre-wrap">
+                        {record.overallExperience}
+                      </p>
+                    </div>
 
-                {/* 记录编号标记 */}
-                <div className="absolute -left-3 top-8 text-[10px] font-bold text-zinc-300 -rotate-90 tracking-widest uppercase hidden sm:block">
-                  LOG #{String(index + 1).padStart(2, '0')}
+                    {record.dishes.length > 0 && (
+                      <div>
+                        <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                          <span className="w-4 h-[1px] bg-zinc-300"></span> 印象菜品
+                        </h4>
+                        <ul className="space-y-4">
+                          {record.dishes.map(dish => (
+                            <li key={dish.id} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 leading-relaxed bg-zinc-50/50 p-3 sm:p-4 rounded-xl">
+                              <span className="font-bold text-zinc-900 whitespace-nowrap text-[15px]">「{dish.name}」</span>
+                              <span className="text-zinc-600 text-sm">{dish.review}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
