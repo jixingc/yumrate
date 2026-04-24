@@ -39,7 +39,7 @@ const rarityConfig: Record<RarityLevel, {
   },
   sr: {
     label: 'SR 宝藏店铺',
-    borderColor: '#9D84B7', // 更加优雅的高级灰紫色
+    borderColor: '#7E57C2', // 提升饱和度，使用更明亮纯正的紫
     stripeOpacity: 0.2,
     starColor: '#8b5cf6',
     innerBgClass: 'bg-white',
@@ -59,7 +59,7 @@ const rarityConfig: Record<RarityLevel, {
   },
   n: {
     label: 'N 避雷踩坑',
-    borderColor: '#7a94b3', // N改为蓝卡（带有一点雾霾蓝的高级感）
+    borderColor: '#4A90E2', // 提升饱和度，使用经典的清透蓝
     stripeOpacity: 0.1,
     starColor: '#3b82f6',
     innerBgClass: 'bg-zinc-50',
