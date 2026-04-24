@@ -28,12 +28,12 @@ const rarityConfig: Record<RarityLevel, {
   },
   ssr: {
     label: 'SSR',
-    themeColor: '#be123c', // 勃艮第酒红 (rose-700)
-    badgeClass: 'bg-gradient-to-br from-rose-500 to-rose-800 text-white shadow-sm',
-    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-rose-500 to-rose-800',
-    headerBgClass: 'bg-gradient-to-b from-rose-50 to-white text-zinc-900',
-    pillClass: 'bg-rose-100 text-rose-800 border border-rose-200',
-    watermarkClass: 'text-rose-400'
+    themeColor: '#dc2626', // 餐饮红 (red-600)
+    badgeClass: 'bg-gradient-to-br from-red-500 to-red-700 text-white shadow-sm',
+    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-red-700',
+    headerBgClass: 'bg-gradient-to-b from-red-50 to-white text-zinc-900',
+    pillClass: 'bg-red-50 text-red-800 border border-red-200',
+    watermarkClass: 'text-red-400'
   },
   sr: {
     label: 'SR',

@@ -29,13 +29,13 @@ const rarityConfig: Record<RarityLevel, {
   },
   ssr: {
     label: 'SSR 此生必吃',
-    borderGradient: 'from-rose-200 via-[#be123c] to-rose-900', // 勃艮第酒红 (rose-700)
-    shadowClass: 'shadow-[0_8px_20px_-8px_rgba(190,18,60,0.1)]',
-    starColor: '#e11d48',
+    borderGradient: 'from-red-200 via-[#dc2626] to-red-800', // 餐饮红 (red-600)
+    shadowClass: 'shadow-[0_8px_20px_-8px_rgba(220,38,38,0.1)]',
+    starColor: '#ef4444', // red-500
     innerBgClass: 'bg-white',
-    badgeClass: 'bg-gradient-to-br from-rose-500 to-rose-800 text-white',
-    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-rose-500 to-rose-800',
-    pillClass: 'bg-rose-50 text-rose-700 border-rose-100'
+    badgeClass: 'bg-gradient-to-br from-red-500 to-red-700 text-white',
+    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-red-700',
+    pillClass: 'bg-red-50 text-red-700 border-red-100'
   },
   sr: {
     label: 'SR 宝藏店铺',
