@@ -5,11 +5,11 @@ interface Props {
   restaurant: Restaurant;
 }
 
-// 对应 UR, SSR, SR, R, N 五个等级的UI配置
+// 对应 UR, SSR, SR, R, N 五个等级的UI配置 (高级简约细边框渐变)
 const rarityConfig: Record<RarityLevel, {
   label: string;
-  borderColor: string;
-  stripeOpacity: number;
+  borderGradient: string;
+  shadowClass: string;
   starColor: string;
   innerBgClass: string;
   badgeClass: string;
@@ -18,49 +18,49 @@ const rarityConfig: Record<RarityLevel, {
 }> = {
   ur: {
     label: 'UR 殿堂神作',
-    borderColor: '#eab308', // amber-500
-    stripeOpacity: 0.4, // 反光效果更强一点
+    borderGradient: 'from-amber-200 via-yellow-500 to-amber-700',
+    shadowClass: 'shadow-[0_15px_40px_-10px_rgba(245,158,11,0.25)]',
     starColor: '#eab308',
-    // 整体不再全黑，而是浅金白底色，用黑色(zinc-900)作为标签辅助色
-    innerBgClass: 'bg-gradient-to-br from-white via-amber-50 to-amber-100',
+    // 浅金白底色，配合极其微妙的质感
+    innerBgClass: 'bg-gradient-to-br from-white via-amber-50/50 to-amber-100/50',
     badgeClass: 'bg-zinc-900 text-amber-400 border border-zinc-800',
     scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-amber-500 to-amber-700',
     pillClass: 'bg-zinc-900 text-amber-400 border-zinc-800'
   },
   ssr: {
     label: 'SSR 此生必吃',
-    borderColor: '#f97316', // orange-500
-    stripeOpacity: 0.2,
+    borderGradient: 'from-orange-200 via-orange-500 to-red-600',
+    shadowClass: 'shadow-[0_15px_35px_-10px_rgba(249,115,22,0.15)]',
     starColor: '#f97316',
     innerBgClass: 'bg-white',
     badgeClass: 'bg-gradient-to-br from-orange-400 to-red-500 text-white',
     scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-orange-400 to-red-600',
-    pillClass: 'bg-orange-50 text-orange-700 border-orange-200'
+    pillClass: 'bg-orange-50 text-orange-700 border-orange-100'
   },
   sr: {
     label: 'SR 宝藏店铺',
-    borderColor: '#7E57C2', // 提升饱和度，使用更明亮纯正的紫
-    stripeOpacity: 0.2,
+    borderGradient: 'from-purple-200 via-[#7E57C2] to-purple-800',
+    shadowClass: 'shadow-[0_15px_35px_-10px_rgba(126,87,194,0.15)]',
     starColor: '#8b5cf6',
     innerBgClass: 'bg-white',
     badgeClass: 'bg-gradient-to-br from-violet-500 to-purple-600 text-white',
     scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-violet-500 to-purple-700',
-    pillClass: 'bg-violet-50 text-violet-700 border-violet-200'
+    pillClass: 'bg-violet-50 text-violet-700 border-violet-100'
   },
   r: {
     label: 'R 日常口粮',
-    borderColor: '#69A541', // R改为绿卡
-    stripeOpacity: 0.15,
+    borderGradient: 'from-green-200 via-[#69A541] to-green-800',
+    shadowClass: 'shadow-[0_10px_30px_-10px_rgba(105,165,65,0.1)]',
     starColor: '#22c55e',
     innerBgClass: 'bg-white',
     badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white',
     scoreClass: 'text-green-500',
-    pillClass: 'bg-green-50 text-green-700 border-green-200'
+    pillClass: 'bg-green-50 text-green-700 border-green-100'
   },
   n: {
     label: 'N 避雷踩坑',
-    borderColor: '#4A90E2', // 提升饱和度，使用经典的清透蓝
-    stripeOpacity: 0.1,
+    borderGradient: 'from-blue-200 via-[#4A90E2] to-blue-800',
+    shadowClass: 'shadow-[0_10px_30px_-10px_rgba(74,144,226,0.1)]',
     starColor: '#3b82f6',
     innerBgClass: 'bg-zinc-50',
     badgeClass: 'bg-gradient-to-br from-blue-400 to-blue-600 text-white',
@@ -75,22 +75,10 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
 
   return (
     <div
-      className="relative flex flex-col rounded-2xl min-h-[300px] sm:h-[340px] w-full shadow-[0_15px_35px_-10px_rgba(0,0,0,0.15)] overflow-hidden"
-      style={{
-        // 降低对比度的反光斜纹边框
-        backgroundColor: config.borderColor,
-        backgroundImage: `repeating-linear-gradient(
-          -45deg,
-          rgba(255, 255, 255, ${config.stripeOpacity}),
-          rgba(255, 255, 255, ${config.stripeOpacity}) 10px,
-          transparent 10px,
-          transparent 20px
-        )`,
-        padding: '8px' // 控制边框厚度
-      }}
+      className={`relative flex flex-col rounded-2xl min-h-[300px] sm:h-[340px] w-full overflow-hidden bg-gradient-to-br ${config.borderGradient} p-[1.5px] ${config.shadowClass}`}
     >
-      {/* 内部卡牌主体：恢复原有的连续布局 */}
-      <div className={`relative flex flex-col flex-grow rounded-xl p-6 overflow-hidden ${config.innerBgClass}`}>
+      {/* 内部卡牌主体：通过极细的 1.5px padding 漏出底层渐变，形成高级金属丝边效果 */}
+      <div className={`relative flex flex-col flex-grow rounded-[14.5px] p-6 overflow-hidden ${config.innerBgClass}`}>
 
         {/* 顶部栏：等级标签 & 馆长标志 */}
         <div className="flex justify-between items-start mb-4 shrink-0 relative z-20">
@@ -99,7 +87,6 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
           </div>
 
           {restaurant.isCuratorOriginal && (
-            // 取消了外发光和阴影效果
             <div className="w-7 h-7 flex-shrink-0" title="馆长首创">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-full h-full transition-transform hover:scale-110" style={{ fill: config.starColor }}>
                 <path d="M10 0C10 6 14 10 20 10C14 10 10 14 10 20C10 14 6 10 0 10C6 10 10 6 10 0Z" />
