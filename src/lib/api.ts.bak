@@ -94,11 +94,7 @@ export const uploadImage = async (base64Image: string): Promise<string | null> =
 export const deleteVisitRecord = async (visitRecordId: string, restaurantId: string) => {
   try {
     // 1. 删除菜品
-    const { error: dishErr } = await supabase.from('dishes').delete().eq('visit_record_id', visitRecordId);
-    if (dishErr) {
-      console.error('Permission/Delete error on dishes:', dishErr);
-      throw dishErr;
-    }
+    await supabase.from('dishes').delete().eq('visit_record_id', visitRecordId);
 
     // 2. 删除探店记录
     const { error: visitErr } = await supabase.from('visit_records').delete().eq('id', visitRecordId);
@@ -132,18 +128,13 @@ export const deleteVisitRecord = async (visitRecordId: string, restaurantId: str
       if (updateErr) throw updateErr;
       return { success: true, restaurantDeleted: false };
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting visit record:', error);
-    // 处理无权限等错误
-    if (error?.code === '42501') {
-      alert('权限不足：您无权删除这条记录。');
-    }
     return { success: false, error };
   }
 };
 
 export const saveEntry = async (entryData: {
-  restaurantId?: string; // 如果有则是添加探店记录，如果没有则是新建餐厅
   restaurantName: string;
   location: string;
   pricePerPerson: number;
@@ -264,11 +255,8 @@ export const saveEntry = async (entryData: {
     }).eq('id', restId);
 
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error saving entry:', error);
-    if (error?.code === '42501') {
-      alert('权限不足：无法保存数据，请确认您已登录且有权修改此记录。');
-    }
     return { success: false, error };
   }
 };

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { RestaurantCard } from '../components/RestaurantCard';
 import { RestaurantModal } from '../components/RestaurantModal';
 import { fetchRestaurants } from '../lib/api';
+import { useAuth } from '../components/AuthProvider';
 import type { Restaurant } from '../types';
 
 export const DeckView: React.FC = () => {
@@ -10,6 +11,9 @@ export const DeckView: React.FC = () => {
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  // 获取登录态
+  const { user, signOut } = useAuth();
 
   // 搜索与过滤排序 State
   const [searchTerm, setSearchTerm] = useState('');
@@ -85,8 +89,23 @@ export const DeckView: React.FC = () => {
               一起来做美食评论家
             </p>
           </div>
-          <div className="mt-8 md:mt-0 text-gray-400 font-serif italic text-sm text-right max-w-xs hidden md:block">
-            "A meticulously curated archive of culinary experiences."
+          <div className="mt-8 md:mt-0 flex flex-col items-center md:items-end gap-2">
+            <div className="text-gray-400 font-serif italic text-sm text-right max-w-xs hidden md:block">
+              "A meticulously curated archive of culinary experiences."
+            </div>
+            {/* 登录态展示区 */}
+            {user ? (
+              <div className="flex items-center gap-3 text-xs font-bold text-gray-500">
+                <span>{user.email}</span>
+                <button onClick={signOut} className="uppercase tracking-widest hover:text-gray-900 transition-colors">
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-gray-900 transition-colors mt-2 md:mt-0">
+                Collaborator Login
+              </Link>
+            )}
           </div>
         </header>
 
@@ -174,14 +193,16 @@ export const DeckView: React.FC = () => {
         )}
       </div>
 
-      {/* 悬浮新增按钮 (FAB) - 恢复深色高质感 */}
-      <Link
-        to="/entry"
-        className="fixed bottom-10 right-10 w-16 h-16 bg-gray-900 text-white rounded-full flex items-center justify-center text-3xl shadow-premium hover:shadow-premium-hover hover:-translate-y-1 transition-all duration-300 z-40"
-        title="新增探店记录"
-      >
-        <span className="leading-none -mt-2">+</span>
-      </Link>
+      {/* 悬浮新增按钮 (FAB) - 恢复深色高质感 (仅登录后可见) */}
+      {user && (
+        <Link
+          to="/entry"
+          className="fixed bottom-10 right-10 w-16 h-16 bg-gray-900 text-white rounded-full flex items-center justify-center text-3xl shadow-premium hover:shadow-premium-hover hover:-translate-y-1 transition-all duration-300 z-40"
+          title="新增探店记录"
+        >
+          <span className="leading-none -mt-2">+</span>
+        </Link>
+      )}
 
       {/* 沉浸式详情弹窗 */}
       <RestaurantModal
