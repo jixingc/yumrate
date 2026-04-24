@@ -60,7 +60,7 @@ const rarityConfig: Record<RarityLevel, {
   n: {
     label: 'N 避雷踩坑',
     borderColor: '#69A541', // 改为绿色
-    stripeOpacity: 0.1,
+    stripeOpacity: 0, // N卡取消条纹反光效果
     starColor: '#22c55e', // 配合变绿
     innerBgClass: 'bg-green-50/50',
     badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white',
