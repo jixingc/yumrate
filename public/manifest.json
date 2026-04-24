@@ -1,0 +1,17 @@
+{
+  "name": "Yumrate",
+  "short_name": "Yumrate",
+  "description": "极简高级的探店打分与收藏指南",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
