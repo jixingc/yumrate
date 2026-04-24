@@ -157,14 +157,28 @@ export const EntryView: React.FC = () => {
   };
 
   // 动态标签处理
+  const addTag = (val: string) => {
+    const cleanVal = val.trim().replace(/[,，]/g, ''); // 兼容中英文逗号
+    if (cleanVal && !customTags.includes(cleanVal) && customTags.length < 2) {
+      setCustomTags([...customTags, cleanVal]);
+      setTagInput('');
+    }
+  };
+
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' || e.key === ',') {
+    if (e.key === 'Enter' || e.key === ',' || e.key === '，') {
       e.preventDefault();
-      const val = tagInput.trim().replace(',', '');
-      if (val && !customTags.includes(val) && customTags.length < 2) {
-        setCustomTags([...customTags, val]);
-        setTagInput('');
-      }
+      addTag(tagInput);
+    }
+  };
+
+  const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    // 如果用户输入了空格或逗号，自动触发添加
+    if (val.endsWith(' ') || val.endsWith(',') || val.endsWith('，')) {
+      addTag(val);
+    } else {
+      setTagInput(val);
     }
   };
 
@@ -260,15 +274,27 @@ export const EntryView: React.FC = () => {
                 </button>
               </span>
             ))}
-            <input
-              type="text"
-              placeholder={customTags.length === 0 ? "添加自定义标签 (最多2个，回车确定，选填)" : "继续添加..."}
-              value={tagInput}
-              onChange={e => setTagInput(e.target.value)}
-              onKeyDown={handleTagKeyDown}
-              disabled={customTags.length >= 2}
-              className="flex-1 bg-transparent border-none outline-none text-sm font-medium placeholder-gray-400 focus:ring-0 min-w-[80px] py-1 disabled:opacity-50"
-            />
+            <div className="flex-1 flex items-center min-w-[120px]">
+              <input
+                type="text"
+                enterKeyHint="done"
+                placeholder={customTags.length === 0 ? "自定义标签 (最多2个，选填)" : "继续添加..."}
+                value={tagInput}
+                onChange={handleTagChange}
+                onKeyDown={handleTagKeyDown}
+                onBlur={() => { if (tagInput) addTag(tagInput); }}
+                disabled={customTags.length >= 2}
+                className="w-full bg-transparent border-none outline-none text-sm font-medium placeholder-gray-400 focus:ring-0 py-1 disabled:opacity-50"
+              />
+              {tagInput.trim() && customTags.length < 2 && (
+                <button
+                  onClick={() => addTag(tagInput)}
+                  className="ml-2 bg-gray-200 hover:bg-gray-300 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center font-bold transition-colors"
+                >
+                  +
+                </button>
+              )}
+            </div>
           </div>
         </section>
 
