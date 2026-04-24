@@ -75,7 +75,7 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
 
   return (
     <div
-      className={`relative flex flex-col rounded-xl sm:rounded-2xl h-[160px] sm:h-[340px] w-full overflow-hidden bg-gradient-to-br ${config.borderGradient} p-[1.5px] ${config.shadowClass}`}
+      className={`relative flex flex-col rounded-xl sm:rounded-2xl h-[120px] sm:h-[340px] w-full overflow-hidden bg-gradient-to-br ${config.borderGradient} p-[1.5px] ${config.shadowClass}`}
     >
       {/* 内部卡牌主体：通过极细的 1.5px padding 漏出底层渐变，形成高级金属丝边效果 */}
       <div className={`relative flex flex-col flex-grow rounded-[10.5px] sm:rounded-[14.5px] p-2 sm:p-6 overflow-hidden ${config.innerBgClass}`}>
@@ -134,11 +134,11 @@ export const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
             </div>
           </div>
 
-          {/* 底部短评 */}
-          <div className="mt-auto pt-2 sm:pt-6 overflow-hidden">
-            <div className={`w-full border-t border-dashed mb-1.5 sm:mb-4 ${isUR ? 'border-amber-200' : 'border-gray-200'}`}></div>
-            <div className="h-[28px] sm:h-[44px]"> {/* 固定短评区域的高度 */}
-              <p className="text-[9px] sm:text-[15px] leading-snug font-medium line-clamp-2 text-gray-500" title={restaurant.shortReview}>
+          {/* 底部短评 (手机端隐藏以节省空间) */}
+          <div className="mt-auto hidden sm:block pt-6 overflow-hidden">
+            <div className={`w-full border-t border-dashed mb-4 ${isUR ? 'border-amber-200' : 'border-gray-200'}`}></div>
+            <div className="h-[44px]"> {/* 固定短评区域的高度 */}
+              <p className="text-[15px] leading-snug font-medium line-clamp-2 text-gray-500" title={restaurant.shortReview}>
                 {restaurant.shortReview}
               </p>
             </div>
