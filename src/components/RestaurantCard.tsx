@@ -21,8 +21,8 @@ const rarityConfig: Record<RarityLevel, {
     borderGradient: 'from-amber-200 via-yellow-500 to-amber-700',
     shadowClass: 'shadow-[0_15px_40px_-10px_rgba(245,158,11,0.25)]',
     starColor: '#eab308',
-    // 浅金白底色，配合极其微妙的质感
-    innerBgClass: 'bg-gradient-to-br from-white via-amber-50/50 to-amber-100/50',
+    // 极其微弱的浅金白底色，大幅降低了不透明度和色彩浓度
+    innerBgClass: 'bg-gradient-to-br from-white via-[#fffdf0] to-[#fffbed]',
     badgeClass: 'bg-zinc-900 text-amber-400 border border-zinc-800',
     scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-amber-500 to-amber-700',
     pillClass: 'bg-zinc-900 text-amber-400 border-zinc-800'
