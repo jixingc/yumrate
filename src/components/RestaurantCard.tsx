@@ -59,13 +59,13 @@ const rarityConfig: Record<RarityLevel, {
   },
   n: {
     label: 'N 避雷踩坑',
-    borderColor: '#69A541', // 改为绿色
-    stripeOpacity: 0, // N卡取消条纹反光效果
-    starColor: '#22c55e', // 配合变绿
-    innerBgClass: 'bg-green-50/50',
-    badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white',
-    scoreClass: 'text-green-500',
-    pillClass: 'bg-green-50 text-green-700 border-green-200'
+    borderColor: '#69A541', // 绿色边框
+    stripeOpacity: 0, // 无条纹
+    starColor: '#71717a',
+    innerBgClass: 'bg-zinc-50', // 恢复内部底色为灰白
+    badgeClass: 'bg-[#69A541] text-white shadow-sm', // 徽章配合边框用绿色
+    scoreClass: 'text-zinc-500', // 分数恢复灰色
+    pillClass: 'bg-zinc-200 text-zinc-600 border-zinc-300' // 标签恢复灰色
   }
 };
 
