@@ -39,7 +39,7 @@ const rarityConfig: Record<RarityLevel, {
   },
   sr: {
     label: 'SR 宝藏店铺',
-    borderColor: '#969696', // 根据要求改为灰色
+    borderColor: '#9D84B7', // 更加优雅的高级灰紫色
     stripeOpacity: 0.2,
     starColor: '#8b5cf6',
     innerBgClass: 'bg-white',
@@ -49,23 +49,23 @@ const rarityConfig: Record<RarityLevel, {
   },
   r: {
     label: 'R 日常口粮',
-    borderColor: '#7a94b3', // 降低饱和度和亮度的蓝色 (原 #60a5fa)
+    borderColor: '#69A541', // R改为绿卡
     stripeOpacity: 0.15,
-    starColor: '#3b82f6',
+    starColor: '#22c55e',
     innerBgClass: 'bg-white',
-    badgeClass: 'bg-gradient-to-br from-blue-400 to-blue-600 text-white',
-    scoreClass: 'text-blue-500',
-    pillClass: 'bg-blue-50 text-blue-700 border-blue-100'
+    badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white',
+    scoreClass: 'text-green-500',
+    pillClass: 'bg-green-50 text-green-700 border-green-200'
   },
   n: {
     label: 'N 避雷踩坑',
-    borderColor: '#69A541', // 绿色边框
-    stripeOpacity: 0, // 无条纹
-    starColor: '#71717a',
-    innerBgClass: 'bg-zinc-50', // 恢复内部底色为灰白
-    badgeClass: 'bg-[#69A541] text-white shadow-sm', // 徽章配合边框用绿色
-    scoreClass: 'text-zinc-500', // 分数恢复灰色
-    pillClass: 'bg-zinc-200 text-zinc-600 border-zinc-300' // 标签恢复灰色
+    borderColor: '#7a94b3', // N改为蓝卡（带有一点雾霾蓝的高级感）
+    stripeOpacity: 0.1,
+    starColor: '#3b82f6',
+    innerBgClass: 'bg-zinc-50',
+    badgeClass: 'bg-gradient-to-br from-blue-400 to-blue-600 text-white',
+    scoreClass: 'text-blue-500',
+    pillClass: 'bg-blue-50 text-blue-700 border-blue-100'
   }
 };
 
