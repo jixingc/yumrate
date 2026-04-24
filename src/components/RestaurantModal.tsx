@@ -37,12 +37,12 @@ const rarityConfig: Record<RarityLevel, {
   },
   sr: {
     label: 'SR',
-    themeColor: '#8b5cf6',
-    badgeClass: 'bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-lg shadow-purple-500/30',
-    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-violet-500 to-purple-700',
-    headerBgClass: 'bg-gradient-to-b from-violet-50 to-white text-zinc-900',
-    pillClass: 'bg-violet-100 text-violet-800 border border-violet-200',
-    watermarkClass: 'text-violet-400'
+    themeColor: '#be123c', // 勃艮第酒红 (rose-700)
+    badgeClass: 'bg-gradient-to-br from-rose-500 to-rose-800 text-white shadow-lg shadow-rose-700/30',
+    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-rose-500 to-rose-800',
+    headerBgClass: 'bg-gradient-to-b from-rose-50 to-white text-zinc-900',
+    pillClass: 'bg-rose-100 text-rose-800 border border-rose-200',
+    watermarkClass: 'text-rose-400'
   },
   r: {
     label: 'R',

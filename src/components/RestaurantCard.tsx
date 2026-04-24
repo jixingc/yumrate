@@ -39,13 +39,13 @@ const rarityConfig: Record<RarityLevel, {
   },
   sr: {
     label: 'SR 宝藏店铺',
-    borderGradient: 'from-purple-200 via-[#7E57C2] to-purple-800',
-    shadowClass: 'shadow-[0_15px_35px_-10px_rgba(126,87,194,0.15)]',
-    starColor: '#8b5cf6',
+    borderGradient: 'from-rose-200 via-[#be123c] to-rose-900', // 勃艮第酒红 (rose-700)
+    shadowClass: 'shadow-[0_15px_35px_-10px_rgba(190,18,60,0.15)]',
+    starColor: '#e11d48', // rose-600
     innerBgClass: 'bg-white',
-    badgeClass: 'bg-gradient-to-br from-violet-500 to-purple-600 text-white',
-    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-violet-500 to-purple-700',
-    pillClass: 'bg-violet-50 text-violet-700 border-violet-100'
+    badgeClass: 'bg-gradient-to-br from-rose-500 to-rose-800 text-white',
+    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-rose-500 to-rose-800',
+    pillClass: 'bg-rose-50 text-rose-700 border-rose-100'
   },
   r: {
     label: 'R 日常口粮',
