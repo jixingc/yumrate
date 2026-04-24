@@ -92,11 +92,11 @@ export const EntryView: React.FC = () => {
 
   // 根据分数实时预览稀有度
   const getPreviewRarity = (score: number) => {
-    if (score >= 8.6) return { label: 'UR/SSR 级', color: 'text-amber-500', bg: 'bg-amber-50' };
-    if (score >= 7.1) return { label: 'SR 级', color: 'text-violet-600', bg: 'bg-violet-50' };
-    if (score >= 5.1) return { label: 'R 级', color: 'text-blue-500', bg: 'bg-blue-50' };
-    if (score >= 3.1) return { label: 'N 级', color: 'text-zinc-500', bg: 'bg-zinc-100' };
-    return { label: '极地雷区', color: 'text-zinc-800', bg: 'bg-zinc-200' };
+    if (score >= 9.1) return { label: 'UR 级', color: 'text-amber-500', bg: 'bg-amber-50' };
+    if (score >= 8.6) return { label: 'SSR 级', color: 'text-red-500', bg: 'bg-red-50' };
+    if (score >= 8.1) return { label: 'SR 级', color: 'text-amber-600', bg: 'bg-amber-50' };
+    if (score >= 6.6) return { label: 'R 级', color: 'text-green-600', bg: 'bg-green-50' };
+    return { label: 'N 级', color: 'text-zinc-500', bg: 'bg-zinc-100' };
   };
 
   const preview = getPreviewRarity(totalScore);
@@ -283,26 +283,26 @@ export const EntryView: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <input
               type="text"
               placeholder="打分者昵称"
               value={reviewerName}
               onChange={e => setReviewerName(e.target.value)}
-              className="col-span-2 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-gray-900 transition-colors"
+              className="col-span-3 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-gray-900 transition-colors"
             />
             <input
               type="date"
               value={visitDate}
               onChange={e => setVisitDate(e.target.value)}
-              className="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold text-gray-600 outline-none focus:border-gray-900 transition-colors"
+              className="col-span-2 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold text-gray-600 outline-none focus:border-gray-900 transition-colors"
             />
             <input
               type="number"
               placeholder="人均花费 ¥"
               value={totalCost}
               onChange={e => setTotalCost(e.target.value)}
-              className="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-gray-900 transition-colors"
+              className="col-span-1 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-gray-900 transition-colors"
             />
           </div>
         </section>

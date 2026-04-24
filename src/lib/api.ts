@@ -197,9 +197,10 @@ export const saveEntry = async (entryData: {
     }
 
     let rarity: RarityLevel = 'n';
-    if (avgScore >= 8.6) rarity = 'ur';
-    else if (avgScore >= 7.1) rarity = 'sr';
-    else if (avgScore >= 5.1) rarity = 'r';
+    if (avgScore >= 9.1) rarity = 'ur';
+    else if (avgScore >= 8.6) rarity = 'ssr';
+    else if (avgScore >= 8.1) rarity = 'sr';
+    else if (avgScore >= 6.6) rarity = 'r';
 
     await supabase.from('restaurants').update({
       name: entryData.restaurantName,
