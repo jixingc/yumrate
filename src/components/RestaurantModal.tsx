@@ -28,21 +28,21 @@ const rarityConfig: Record<RarityLevel, {
   },
   ssr: {
     label: 'SSR',
-    themeColor: '#f97316',
-    badgeClass: 'bg-gradient-to-br from-orange-400 via-red-500 to-rose-600 text-white shadow-lg shadow-red-500/30 border border-orange-300/50',
-    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-orange-400 to-red-600 drop-shadow-sm',
-    headerBgClass: 'bg-gradient-to-b from-orange-50 to-white text-zinc-900',
-    pillClass: 'bg-orange-100 text-orange-800 border border-orange-200',
-    watermarkClass: 'text-orange-400'
-  },
-  sr: {
-    label: 'SR',
     themeColor: '#be123c', // 勃艮第酒红 (rose-700)
     badgeClass: 'bg-gradient-to-br from-rose-500 to-rose-800 text-white shadow-lg shadow-rose-700/30',
     scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-rose-500 to-rose-800',
     headerBgClass: 'bg-gradient-to-b from-rose-50 to-white text-zinc-900',
     pillClass: 'bg-rose-100 text-rose-800 border border-rose-200',
     watermarkClass: 'text-rose-400'
+  },
+  sr: {
+    label: 'SR',
+    themeColor: '#facc15', // 美团黄 (yellow-400)
+    badgeClass: 'bg-gradient-to-br from-yellow-300 to-yellow-500 text-yellow-900 shadow-md shadow-yellow-500/30',
+    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-yellow-600',
+    headerBgClass: 'bg-gradient-to-b from-yellow-50 to-white text-zinc-900',
+    pillClass: 'bg-yellow-100 text-yellow-800 border border-yellow-200',
+    watermarkClass: 'text-yellow-400'
   },
   r: {
     label: 'R',

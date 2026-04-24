@@ -29,23 +29,23 @@ const rarityConfig: Record<RarityLevel, {
   },
   ssr: {
     label: 'SSR 此生必吃',
-    borderGradient: 'from-orange-200 via-orange-500 to-red-600',
-    shadowClass: 'shadow-[0_15px_35px_-10px_rgba(249,115,22,0.15)]',
-    starColor: '#f97316',
-    innerBgClass: 'bg-white',
-    badgeClass: 'bg-gradient-to-br from-orange-400 to-red-500 text-white',
-    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-orange-400 to-red-600',
-    pillClass: 'bg-orange-50 text-orange-700 border-orange-100'
-  },
-  sr: {
-    label: 'SR 宝藏店铺',
     borderGradient: 'from-rose-200 via-[#be123c] to-rose-900', // 勃艮第酒红 (rose-700)
     shadowClass: 'shadow-[0_15px_35px_-10px_rgba(190,18,60,0.15)]',
-    starColor: '#e11d48', // rose-600
+    starColor: '#e11d48',
     innerBgClass: 'bg-white',
     badgeClass: 'bg-gradient-to-br from-rose-500 to-rose-800 text-white',
     scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-rose-500 to-rose-800',
     pillClass: 'bg-rose-50 text-rose-700 border-rose-100'
+  },
+  sr: {
+    label: 'SR 宝藏店铺',
+    borderGradient: 'from-yellow-200 via-[#facc15] to-yellow-600', // 美团黄 (yellow-400)
+    shadowClass: 'shadow-[0_15px_35px_-10px_rgba(250,204,21,0.15)]',
+    starColor: '#facc15', // yellow-400
+    innerBgClass: 'bg-white',
+    badgeClass: 'bg-gradient-to-br from-yellow-300 to-yellow-500 text-yellow-900', // 深色文字在亮黄上更清晰
+    scoreClass: 'text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-yellow-600',
+    pillClass: 'bg-yellow-50 text-yellow-800 border-yellow-200'
   },
   r: {
     label: 'R 日常口粮',
