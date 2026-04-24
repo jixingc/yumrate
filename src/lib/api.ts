@@ -134,6 +134,7 @@ export const deleteVisitRecord = async (visitRecordId: string, restaurantId: str
   }
 };
 
+export const saveEntry = async (entryData: {
   restaurantId?: string; // 如果有则是添加探店记录，如果没有则是新建餐厅
   restaurantName: string;
   location: string;
