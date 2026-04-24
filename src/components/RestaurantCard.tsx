@@ -39,7 +39,7 @@ const rarityConfig: Record<RarityLevel, {
   },
   sr: {
     label: 'SR 宝藏店铺',
-    borderColor: '#8e82a6', // 降低饱和度和亮度的紫色 (原 #a78bfa)
+    borderColor: '#969696', // 根据要求改为灰色
     stripeOpacity: 0.2,
     starColor: '#8b5cf6',
     innerBgClass: 'bg-white',
@@ -59,13 +59,13 @@ const rarityConfig: Record<RarityLevel, {
   },
   n: {
     label: 'N 避雷踩坑',
-    borderColor: '#a1a1aa', // zinc-400
+    borderColor: '#69A541', // 改为绿色
     stripeOpacity: 0.1,
-    starColor: '#71717a',
-    innerBgClass: 'bg-zinc-50',
-    badgeClass: 'bg-gradient-to-br from-zinc-400 to-zinc-500 text-white',
-    scoreClass: 'text-zinc-500',
-    pillClass: 'bg-zinc-200 text-zinc-600 border-zinc-300'
+    starColor: '#22c55e', // 配合变绿
+    innerBgClass: 'bg-green-50/50',
+    badgeClass: 'bg-gradient-to-br from-green-400 to-green-600 text-white',
+    scoreClass: 'text-green-500',
+    pillClass: 'bg-green-50 text-green-700 border-green-200'
   }
 };
 
