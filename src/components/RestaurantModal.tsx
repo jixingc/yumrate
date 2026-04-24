@@ -115,8 +115,11 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose }
           <span className="text-2xl font-bold leading-none -mt-1 drop-shadow-md">×</span>
         </button>
 
-        {/* 1. Poster Header (海报级头部) */}
-        <div className={`relative shrink-0 flex flex-col ${config.headerBgClass}`}>
+        {/* 全局滚动容器：允许头部和日志一起向上滚动 */}
+        <div className="overflow-y-auto w-full flex flex-col">
+
+          {/* 1. Poster Header (海报级头部) */}
+          <div className={`relative shrink-0 flex flex-col ${config.headerBgClass}`}>
 
           {/* 超巨大炫耀性水印背景 (The Flex Factor) */}
           <div className={`absolute top-0 right-0 bottom-0 overflow-hidden pointer-events-none flex items-center justify-end pr-8 ${config.watermarkClass}`}>
@@ -171,7 +174,7 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose }
         </div>
 
         {/* 2. Body (探店记录日志) */}
-        <div className="flex-1 overflow-y-auto p-8 bg-zinc-50 rounded-b-3xl">
+        <div className="flex-1 p-8 bg-zinc-50 rounded-b-3xl">
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-xl font-bold text-zinc-900">探店档案 <span className="text-zinc-400 font-normal">Logs</span></h3>
             <span className="text-sm font-bold text-zinc-400">{restaurant.visitRecords.length} 份记录</span>
@@ -250,6 +253,8 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose }
               </div>
             ))}
           </div>
+        </div>
+
         </div>
 
       </div>
