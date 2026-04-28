@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { RestaurantCard } from '../components/RestaurantCard';
 import { RestaurantModal } from '../components/RestaurantModal';
 import { fetchRestaurants } from '../lib/api';
-import { useAuth } from '../components/AuthProvider';
 import type { Restaurant } from '../types';
 
 export const DeckView: React.FC = () => {
@@ -11,9 +10,6 @@ export const DeckView: React.FC = () => {
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-  // 获取登录态
-  const { user, signOut } = useAuth();
 
   // 搜索与过滤排序 State
   const [searchTerm, setSearchTerm] = useState('');
@@ -90,35 +86,6 @@ export const DeckView: React.FC = () => {
             </p>
           </div>
           <div className="mt-8 md:mt-0 flex flex-col items-center md:items-end">
-            {/* 登录态展示区 - 头像模式 */}
-            <div className="relative group z-50">
-              {user ? (
-                <div className="flex items-center gap-3 cursor-pointer">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-200 border-[3px] border-white shadow-md overflow-hidden flex items-center justify-center">
-                    {user.user_metadata?.avatar_url ? (
-                      <img src={user.user_metadata.avatar_url} alt="avatar" className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-gray-500 font-bold text-xl">{user.email?.charAt(0).toUpperCase()}</span>
-                    )}
-                  </div>
-                  {/* Dropdown for logout */}
-                  <div className="absolute right-0 top-16 w-32 bg-white border border-gray-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <button onClick={signOut} className="w-full text-center px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors">
-                      退出登录
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <Link to="/login" className="flex items-center gap-3 text-gray-500 hover:text-gray-900 transition-colors">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-100 border-[3px] border-white shadow-md overflow-hidden flex items-center justify-center text-gray-400 group-hover:bg-gray-200 transition-colors">
-                    <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  </div>
-                  <span className="text-sm sm:text-base font-bold tracking-widest">协作者登录</span>
-                </Link>
-              )}
-            </div>
           </div>
         </header>
 
@@ -206,16 +173,14 @@ export const DeckView: React.FC = () => {
         )}
       </div>
 
-      {/* 悬浮新增按钮 (FAB) - 恢复深色高质感 (仅登录后可见) */}
-      {user && (
-        <Link
-          to="/entry"
-          className="fixed bottom-10 right-10 w-16 h-16 bg-gray-900 text-white rounded-full flex items-center justify-center text-3xl shadow-premium hover:shadow-premium-hover hover:-translate-y-1 transition-all duration-300 z-40"
-          title="新增探店记录"
-        >
-          <span className="leading-none -mt-2">+</span>
-        </Link>
-      )}
+      {/* 悬浮新增按钮 (FAB) - 恢复深色高质感 */}
+      <Link
+        to="/entry"
+        className="fixed bottom-10 right-10 w-16 h-16 bg-gray-900 text-white rounded-full flex items-center justify-center text-3xl shadow-premium hover:shadow-premium-hover hover:-translate-y-1 transition-all duration-300 z-40"
+        title="新增探店记录"
+      >
+        <span className="leading-none -mt-2">+</span>
+      </Link>
 
       {/* 沉浸式详情弹窗 */}
       <RestaurantModal

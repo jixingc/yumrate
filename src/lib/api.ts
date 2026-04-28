@@ -134,10 +134,6 @@ export const deleteVisitRecord = async (visitRecordId: string, restaurantId: str
     }
   } catch (error: any) {
     console.error('Error deleting visit record:', error);
-    // 处理无权限等错误
-    if (error?.code === '42501') {
-      alert('权限不足：您无权删除这条记录。');
-    }
     return { success: false, error };
   }
 };
@@ -266,9 +262,6 @@ export const saveEntry = async (entryData: {
     return { success: true };
   } catch (error: any) {
     console.error('Error saving entry:', error);
-    if (error?.code === '42501') {
-      alert('权限不足：无法保存数据，请确认您已登录且有权修改此记录。');
-    }
     return { success: false, error };
   }
 };
