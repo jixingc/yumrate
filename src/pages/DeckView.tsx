@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RestaurantCard } from '../components/RestaurantCard';
 import { RestaurantModal } from '../components/RestaurantModal';
 import { fetchRestaurants } from '../lib/api';
 import type { Restaurant } from '../types';
 
 export const DeckView: React.FC = () => {
+  const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  // FAB 菜单与选择弹窗
+  const [isFabMenuOpen, setIsFabMenuOpen] = useState(false);
+  const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
+  const [selectSearchTerm, setSelectSearchTerm] = useState('');
 
   // 搜索与过滤排序 State
   const [searchTerm, setSearchTerm] = useState('');
@@ -173,14 +179,46 @@ export const DeckView: React.FC = () => {
         )}
       </div>
 
-      {/* 悬浮新增按钮 (FAB) - 恢复深色高质感 */}
-      <Link
-        to="/entry"
-        className="fixed bottom-10 right-10 w-16 h-16 bg-gray-900 text-white rounded-full flex items-center justify-center text-3xl shadow-premium hover:shadow-premium-hover hover:-translate-y-1 transition-all duration-300 z-40"
-        title="新增探店记录"
-      >
-        <span className="leading-none -mt-2">+</span>
-      </Link>
+      {/* 悬浮新增按钮 (FAB) 及菜单 */}
+      <div className="fixed bottom-10 right-10 z-40 flex flex-col items-end">
+        {/* 菜单项 */}
+        <div className={`flex flex-col items-end gap-4 mb-5 transition-all duration-300 origin-bottom ${isFabMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
+          <button
+            onClick={() => {
+              setIsFabMenuOpen(false);
+              setIsSelectModalOpen(true);
+              setSelectSearchTerm('');
+            }}
+            className="flex items-center gap-3 bg-white px-5 py-3 rounded-full shadow-premium border border-gray-100 hover:bg-gray-50 transition-all hover:scale-105"
+          >
+            <span className="font-bold text-gray-700 text-sm tracking-widest">在原有笔记跟评</span>
+            <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm shadow-inner">✍️</div>
+          </button>
+
+          <Link
+            to="/entry"
+            onClick={() => setIsFabMenuOpen(false)}
+            className="flex items-center gap-3 bg-white px-5 py-3 rounded-full shadow-premium border border-gray-100 hover:bg-gray-50 transition-all hover:scale-105"
+          >
+            <span className="font-bold text-gray-700 text-sm tracking-widest">新建餐厅档案</span>
+            <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm shadow-inner">✨</div>
+          </Link>
+        </div>
+
+        {/* 主按钮 */}
+        <button
+          onClick={() => setIsFabMenuOpen(!isFabMenuOpen)}
+          className={`w-16 h-16 bg-gray-900 text-white rounded-full flex items-center justify-center text-3xl shadow-premium hover:shadow-premium-hover transition-all duration-300 relative z-50 ${isFabMenuOpen ? 'bg-black rotate-45' : 'hover:-translate-y-1'}`}
+          title="新增记录"
+        >
+          <span className="leading-none -mt-2">+</span>
+        </button>
+
+        {/* 全局透明遮罩（点击外部关闭菜单） */}
+        {isFabMenuOpen && (
+          <div className="fixed inset-0 z-30" onClick={() => setIsFabMenuOpen(false)}></div>
+        )}
+      </div>
 
       {/* 沉浸式详情弹窗 */}
       <RestaurantModal
@@ -189,6 +227,59 @@ export const DeckView: React.FC = () => {
         onClose={handleCloseModal}
         onUpdate={handleDataChange}
       />
+
+      {/* 选择要跟评的餐厅弹窗 */}
+      {isSelectModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-6" aria-modal="true" role="dialog">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={() => setIsSelectModalOpen(false)}></div>
+          <div className="relative w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col max-h-[85vh] animate-in slide-in-from-bottom-10 sm:slide-in-from-bottom-0 sm:zoom-in-95 duration-300">
+            <div className="p-6 border-b border-gray-100 flex flex-col gap-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold text-gray-900">选择要跟评的餐厅</h3>
+                <button onClick={() => setIsSelectModalOpen(false)} className="text-gray-400 hover:text-gray-900 text-3xl leading-none">&times;</button>
+              </div>
+              <input
+                type="text"
+                placeholder="搜索餐厅名称..."
+                value={selectSearchTerm}
+                onChange={(e) => setSelectSearchTerm(e.target.value)}
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium outline-none focus:border-gray-900 focus:bg-white transition-colors"
+                autoFocus
+              />
+            </div>
+
+            <div className="overflow-y-auto p-4 flex flex-col gap-2 bg-gray-50/50 rounded-b-3xl">
+              {restaurants.filter(r => r.name.toLowerCase().includes(selectSearchTerm.toLowerCase())).map(rest => (
+                <button
+                  key={rest.id}
+                  onClick={() => {
+                    setIsSelectModalOpen(false);
+                    navigate('/entry', { state: { restaurant: rest } });
+                  }}
+                  className="text-left w-full p-4 rounded-2xl bg-white shadow-sm hover:shadow-md border border-gray-100 transition-all flex justify-between items-center group active:scale-[0.98]"
+                >
+                  <div className="flex flex-col gap-1 pr-4 overflow-hidden">
+                    <div className="font-black text-gray-900 text-lg truncate">{rest.name}</div>
+                    <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest truncate">
+                      {rest.location} · {rest.tags[0] || '综合'}
+                    </div>
+                  </div>
+                  <div className="text-gray-300 group-hover:text-gray-900 transition-colors shrink-0">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </button>
+              ))}
+              {restaurants.filter(r => r.name.toLowerCase().includes(selectSearchTerm.toLowerCase())).length === 0 && (
+                <div className="py-12 text-center text-gray-400 font-bold text-sm">
+                  没有找到相关餐厅
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

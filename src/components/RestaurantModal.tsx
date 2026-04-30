@@ -209,7 +209,18 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
             // === 列表视图 ===
             <div className="animate-in fade-in duration-300">
               <div className="flex items-center justify-between mb-8 px-2">
-                <h3 className="text-xl font-bold text-zinc-900">探店档案 <span className="text-zinc-400 font-normal">Logs</span></h3>
+                <div className="flex items-center gap-4">
+                  <h3 className="text-xl font-bold text-zinc-900">探店档案 <span className="text-zinc-400 font-normal">Logs</span></h3>
+                  <button
+                    onClick={() => {
+                      onClose();
+                      navigate('/entry', { state: { restaurant } });
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 text-white text-xs font-bold rounded-full hover:bg-zinc-800 transition-colors shadow-sm"
+                  >
+                    <span className="text-base leading-none -mt-0.5">+</span> 新增跟评
+                  </button>
+                </div>
                 <span className="text-sm font-bold text-zinc-400">{restaurant.visitRecords.length} 份记录</span>
               </div>
 
@@ -293,6 +304,18 @@ export const RestaurantModal: React.FC<Props> = ({ restaurant, isOpen, onClose, 
                   </div>
 
                   <div className="flex items-center gap-1 sm:gap-2">
+                    <button
+                      onClick={() => {
+                        onClose();
+                        navigate('/entry', { state: { restaurant } });
+                      }}
+                      className="flex items-center justify-center p-2.5 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-all"
+                      title="在此餐厅添加新跟评"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                      </svg>
+                    </button>
                     <button
                       onClick={() => handleRecordClick(activeRecord)}
                       className="flex items-center justify-center p-2.5 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-all"
