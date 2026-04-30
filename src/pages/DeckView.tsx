@@ -182,7 +182,7 @@ export const DeckView: React.FC = () => {
       {/* 悬浮新增按钮 (FAB) 及菜单 */}
       <div className="fixed bottom-10 right-10 z-40 flex flex-col items-end">
         {/* 菜单项 */}
-        <div className={`flex flex-col items-end gap-4 mb-5 transition-all duration-300 origin-bottom ${isFabMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
+        <div className={`relative z-40 flex flex-col items-end gap-4 mb-5 transition-all duration-300 origin-bottom ${isFabMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
           <button
             onClick={() => {
               setIsFabMenuOpen(false);
