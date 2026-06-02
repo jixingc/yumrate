@@ -83,6 +83,7 @@ export const DeckView: React.FC = () => {
       <div className="max-w-7xl mx-auto pb-24 relative z-10">
         <header className="mb-16 text-center md:text-left flex flex-col md:flex-row items-center justify-between">
           <div>
+            <div className="text-xs font-bold tracking-[0.2em] text-gray-400 uppercase mb-3">Star 的笔记</div>
             <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tight flex flex-col sm:flex-row items-center sm:items-baseline gap-2 sm:gap-4">
               <span>探店笔记</span>
               <span className="text-2xl md:text-3xl font-serif text-gray-400 font-bold tracking-normal">Yumrate.</span>
@@ -91,7 +92,15 @@ export const DeckView: React.FC = () => {
               一起来做美食评论家
             </p>
           </div>
-          <div className="mt-8 md:mt-0 flex flex-col items-center md:items-end">
+          <div className="mt-8 md:mt-0 flex flex-col items-center md:items-end gap-3">
+            <a
+              href="/museum/index.html"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 transition-all text-sm font-bold text-gray-700 shadow-sm group"
+            >
+              <span className="text-base">⊕</span>
+              <span>上博青铜馆</span>
+              <span className="text-gray-400 group-hover:translate-x-0.5 transition-transform">→</span>
+            </a>
           </div>
         </header>
 

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>青铜馆 · Star 的笔记</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ══ 顶部导航栏 ══ -->
+  <header id="topbar">
+    <div class="topbar-left">
+      <a href="/" class="back-nav-btn" title="返回探店笔记">
+        <span>←</span><span class="back-nav-text">探店笔记</span>
+      </a>
+      <div class="logo">
+        <span class="logo-icon">⊕</span>
+        <span class="logo-text">上博青铜馆</span>
+        <span class="logo-sub">学习笔记</span>
+      </div>
+    </div>
+    <nav class="period-nav" id="periodNav"></nav>
+    <div class="topbar-right">
+      <button id="editToggle" class="btn-edit-toggle" onclick="toggleEditMode()">
+        <span class="edit-icon">✎</span> 编辑模式
+      </button>
+    </div>
+  </header>
+
+  <!-- ══ 编辑模式提示条 ══ -->
+  <div id="editBanner" class="edit-banner hidden">
+    <span class="edit-banner-text">✎ 编辑模式已开启 — 改动自动保存到本地</span>
+    <div class="edit-banner-actions">
+      <button class="btn-sm" onclick="exportData()">⬇ 导出备份</button>
+      <label class="btn-sm" for="importFile" style="cursor:pointer">⬆ 导入数据</label>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
+      <button class="btn-sm btn-danger" onclick="resetToDefault()">↺ 恢复默认</button>
+    </div>
+  </div>
+
+  <!-- ══ 主体布局 ══ -->
+  <div id="mainLayout">
+
+    <!-- 左侧时间轴 -->
+    <aside id="timelinePanel">
+      <div id="timelineContent"></div>
+    </aside>
+
+    <!-- 右侧内容区 -->
+    <main id="contentArea">
+      <div id="dynastyHeader"></div>
+      <div id="categoryFilter"></div>
+      <div id="artifactGrid"></div>
+    </main>
+
+
+  </div>
+
+  <!-- ══ 文物详情弹窗 ══ -->
+  <div id="detailModal" class="modal hidden">
+    <div class="modal-backdrop" onclick="closeDrawer()"></div>
+    <div class="detail-modal-box">
+      <div id="drawerContent"></div>
+    </div>
+  </div>
+
+  <!-- ══ 编辑模态框 ══ -->
+  <div id="editModal" class="modal hidden">
+    <div class="modal-backdrop" onclick="closeEditModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 id="modalTitle">编辑文物</h2>
+        <button class="modal-close" onclick="closeEditModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" onsubmit="saveArtifact(event)">
+          <input type="hidden" id="f_id">
+          <input type="hidden" id="f_periodId">
+          <input type="hidden" id="f_dynastyId">
+
+          <div class="form-section">
+            <h3 class="form-section-title">基本信息</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>文物名称 *</label>
+                <input type="text" id="f_name" required placeholder="如：大克鼎">
+              </div>
+              <div class="form-group">
+                <label>器物分类 *</label>
+                <select id="f_category" required>
+                  <option value="">请选择</option>
+                  <option value="酒器">酒器</option>
+                  <option value="食器">食器</option>
+                  <option value="乐器">乐器</option>
+                  <option value="兵器">兵器</option>
+                  <option value="水器">水器</option>
+                  <option value="量器">量器</option>
+                  <option value="装饰器">装饰器</option>
+                  <option value="贮器">贮器</option>
+                  <option value="其他">其他</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>图片</label>
+              <div class="image-input-row">
+                <div class="image-input-stack">
+                  <label class="btn-upload-img" for="f_imageFile">
+                    <span id="uploadBtnLabel">⬆ 上传本地图片</span>
+                    <input type="file" id="f_imageFile" accept="image/*" style="display:none"
+                           onchange="uploadLocalImage(this)">
+                  </label>
+                  <span class="img-or">或</span>
+                  <input type="text" id="f_imageUrl" placeholder="粘贴图片网址"
+                         oninput="previewImage(this.value)">
+                </div>
+                <div id="imagePreview" class="image-preview-thumb"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="form-section-title">基础信息</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>用途</label>
+                <input type="text" id="f_usage" placeholder="如：盛酒礼器">
+              </div>
+              <div class="form-group">
+                <label>具体年代</label>
+                <input type="text" id="f_exactDate" placeholder="如：商代晚期">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>尺寸</label>
+                <input type="text" id="f_dimensions" placeholder="如：高93.1cm，重201.5kg">
+              </div>
+              <div class="form-group">
+                <label>出土地点</label>
+                <input type="text" id="f_excavationSite" placeholder="如：陕西扶风，或\"传世\"">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="form-section-title">科普内容</h3>
+            <div class="form-group">
+              <label>科普介绍</label>
+              <textarea id="f_intro" rows="6" placeholder="器物的用途、历史背景、相关故事……支持换行"></textarea>
+            </div>
+            <div class="form-group">
+              <label>亮点 / 冷知识 <small>（每行一条）</small></label>
+              <textarea id="f_highlights" rows="4" placeholder="每行输入一条亮点或冷知识"></textarea>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="form-section-title">标记</h3>
+            <div class="form-row">
+              <div class="form-group form-group-check">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="f_isHighlight">
+                  <span>⭐ 重点展品（显示金色星标）</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label>标签 <small>（逗号分隔）</small></label>
+                <input type="text" id="f_tags" placeholder="如：镇馆之宝,禁止出境">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>编辑笔记 <small>（仅编辑模式可见）</small></label>
+              <input type="text" id="f_notes" placeholder="私人备注，不对外展示">
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" onclick="closeEditModal()">取消</button>
+            <button type="submit" class="btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 删除确认对话框 ══ -->
+  <div id="confirmDialog" class="modal hidden">
+    <div class="modal-backdrop" onclick="closeConfirm()"></div>
+    <div class="modal-box modal-box-sm">
+      <div class="modal-header">
+        <h2 id="confirmTitle">确认操作</h2>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeConfirm()">取消</button>
+        <button class="btn-danger" id="confirmOkBtn">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase JS SDK (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <!-- 脚本加载顺序：data → app → editor -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="editor.js"></script>
+</body>
+</html>
