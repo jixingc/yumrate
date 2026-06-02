@@ -83,7 +83,9 @@ export const DeckView: React.FC = () => {
       <div className="max-w-7xl mx-auto pb-24 relative z-10">
         <header className="mb-16 text-center md:text-left flex flex-col md:flex-row items-center justify-between">
           <div>
-            <div className="text-xs font-bold tracking-[0.2em] text-gray-400 uppercase mb-3">Star 的笔记</div>
+            <Link to="/" className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.2em] text-gray-400 uppercase mb-3 hover:text-gray-700 transition-colors">
+              <span>←</span> Star 的笔记
+            </Link>
             <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tight flex flex-col sm:flex-row items-center sm:items-baseline gap-2 sm:gap-4">
               <span>探店笔记</span>
               <span className="text-2xl md:text-3xl font-serif text-gray-400 font-bold tracking-normal">Yumrate.</span>

@@ -211,7 +211,7 @@ export const EntryView: React.FC = () => {
     setIsCompressing(false);
 
     if (result.success) {
-      navigate('/');
+      navigate('/explore');
     } else {
       alert('保存失败，请检查控制台网络请求');
     }
@@ -224,7 +224,7 @@ export const EntryView: React.FC = () => {
         {/* 导航头 */}
         <header className="flex items-center justify-between mb-12 pb-6 border-b border-gray-100">
           <Link
-            to="/"
+            to="/explore"
             className="text-gray-400 hover:text-gray-900 font-medium transition-colors flex items-center gap-2"
           >
             <span className="text-xl leading-none -mt-1">←</span> 返回画廊
