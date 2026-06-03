@@ -694,7 +694,7 @@ body.edit-active .drawer {
 
 .drawer-image {
   width: 100%;
-  max-height: 260px;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
 }
@@ -907,7 +907,7 @@ body.edit-active .drawer {
 
 /* 在弹窗里让图片高度合理 */
 .detail-modal-box .drawer-image {
-  max-height: 320px;
+  aspect-ratio: 3 / 4;
 }
 .detail-modal-box .drawer-image-placeholder {
   height: 180px;
